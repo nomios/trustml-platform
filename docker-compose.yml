@@ -1,0 +1,38 @@
+version: "3.9"
+
+services:
+  mongo:
+    image: mongo:7
+    container_name: trustml-mongo
+    restart: unless-stopped
+    volumes:
+      - mongo_data:/data/db
+
+  backend:
+    build:
+      context: ./backend
+    image: trustml-backend:latest
+    container_name: trustml-backend
+    environment:
+      - MONGO_URL=mongodb://mongo:27017
+      - DB_NAME=trustml
+      - CORS_ORIGINS=*
+    depends_on:
+      - mongo
+    ports:
+      - "8000:8000"
+
+  frontend:
+    build:
+      context: ./frontend
+    image: trustml-frontend:latest
+    container_name: trustml-frontend
+    depends_on:
+      - backend
+    ports:
+      - "8081:80"
+
+volumes:
+  mongo_data:
+
+
