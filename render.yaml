@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: trustml-backend
+    env: python
+    region: oregon
+    rootDir: backend
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn -k uvicorn.workers.UvicornWorker -w 2 -b 0.0.0.0:$PORT server:app"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: CORS_ORIGINS
+        value: https://trustml.studio,https://www.trustml.studio
+      - key: MONGODB_URI
+        sync: false  # Set in Render dashboard (MongoDB Atlas connection string)
+      - key: DB_NAME
+        value: trustml_db
+      - key: SECRET_KEY
+        generateValue: true
+    healthCheckPath: /api/health
+    autoDeploy: true
