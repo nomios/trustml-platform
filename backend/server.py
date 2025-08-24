@@ -20,9 +20,14 @@ ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
 
 # MongoDB connection
-mongo_url = os.environ['MONGO_URL']
+# Support either MONGO_URL or MONGODB_URI and provide a safe default for DB_NAME
+mongo_url = os.getenv('MONGO_URL') or os.getenv('MONGODB_URI')
+if not mongo_url:
+    raise RuntimeError("Missing MongoDB connection string. Set MONGO_URL or MONGODB_URI.")
+
 client = AsyncIOMotorClient(mongo_url)
-db = client[os.environ['DB_NAME']]
+db_name = os.getenv('DB_NAME', 'trustml_db')
+db = client[db_name]
 
 # Create the main app without a prefix
 app = FastAPI()
@@ -125,6 +130,21 @@ class AnalyticsEvent(BaseModel):
 @api_router.get("/")
 async def root():
     return {"message": "TrustML API is running"}
+
+@api_router.get("/health")
+async def health_check():
+    """Health check endpoint for monitoring"""
+    try:
+        # Check database connection
+        await db.command("ping")
+        return {
+            "status": "healthy",
+            "service": "trustml-backend",
+            "database": "connected"
+        }
+    except Exception as e:
+        logger.error(f"Health check failed: {str(e)}")
+        raise HTTPException(status_code=503, detail="Service unavailable")
 
 @api_router.post("/status", response_model=StatusCheck)
 async def create_status_check(input: StatusCheckCreate):
@@ -423,10 +443,15 @@ async def get_resource_analytics():
 # Include the router in the main app
 app.include_router(api_router)
 
+# Configure CORS for production
+cors_origins = os.environ.get('CORS_ORIGINS', '*')
+if cors_origins != '*':
+    cors_origins = [origin.strip() for origin in cors_origins.split(',')]
+
 app.add_middleware(
     CORSMiddleware,
     allow_credentials=True,
-    allow_origins=os.environ.get('CORS_ORIGINS', '*').split(','),
+    allow_origins=cors_origins,
     allow_methods=["*"],
     allow_headers=["*"],
 )
