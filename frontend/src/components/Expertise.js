@@ -1,6 +1,11 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Brain, Cpu, Zap, Shield, BarChart3, Settings, Globe, Database, ArrowRight, Play, CheckCircle2, Award, Target, Users, TrendingUp } from "lucide-react";
+import { Heart, Briefcase, Target, Flower, TrendingUp, Shield, Globe, Users, Star, ArrowRight } from "lucide-react";
+import ResourceService from "../utils/resourceService";
+
+import { JourneyIcon1 } from "./icons/JourneyIcon1";
+import { JourneyIcon2 } from "./icons/JourneyIcon2";
+import { JourneyIcon3 } from "./icons/JourneyIcon3";
 
 const Container = ({ children, className = "" }) => (
   <div className={`max-w-7xl mx-auto px-6 ${className}`}>{children}</div>
@@ -9,18 +14,18 @@ const Container = ({ children, className = "" }) => (
 const Button = ({ children, variant = "primary", size = "md", className = "", ...props }) => {
   const baseClasses = "inline-flex items-center justify-center font-medium transition-all duration-200 rounded-lg";
   const variants = {
-    primary: "bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl",
-    secondary: "bg-white hover:bg-gray-50 text-gray-900 border border-gray-200 hover:border-gray-300",
-    outline: "border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white"
+    primary: "bg-gradient-to-r from-indigo-600 to-blue-500 hover:from-indigo-500 hover:to-blue-400 text-white shadow-lg shadow-indigo-500/30 hover:shadow-xl hover:shadow-indigo-500/40",
+    secondary: "bg-indigo-900/30 hover:bg-indigo-900/50 text-indigo-300 border border-indigo-700/50 backdrop-blur-sm",
+    outline: "border-2 border-white text-white hover:bg-white hover:text-indigo-600"
   };
   const sizes = {
     sm: "px-4 py-2 text-sm",
     md: "px-6 py-3 text-base",
     lg: "px-8 py-4 text-lg"
   };
-  
+
   return (
-    <button 
+    <button
       className={`${baseClasses} ${variants[variant]} ${sizes[size]} ${className}`}
       {...props}
     >
@@ -29,60 +34,111 @@ const Button = ({ children, variant = "primary", size = "md", className = "", ..
   );
 };
 
-const ExpertiseCard = ({ icon: Icon, title, description, experience, achievements }) => (
+const DriveCard = ({ icon: Icon, title, description }) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.5 }}
-    className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border"
+    className="bg-slate-800/70 text-center shadow-2xl backdrop-blur-sm transition-all duration-300 border border-slate-700/70 rounded-xl p-6"
   >
-    <div className="flex items-center space-x-3 mb-4">
-      <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-        <Icon className="w-5 h-5 text-white" />
-      </div>
-      <h3 className="font-semibold text-gray-900">{title}</h3>
+    <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center bg-gradient-to-br from-indigo-600 to-blue-500 rounded-full">
+      <Icon className="h-8 w-8 text-white" />
     </div>
-    <p className="text-gray-600 text-sm mb-4">{description}</p>
-    <div className="mb-4">
-      <div className="text-xs font-medium text-gray-500 mb-2">EXPERIENCE</div>
-      <div className="text-sm text-gray-700">{experience}</div>
-    </div>
-    {achievements && (
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-        <div className="flex items-center space-x-2">
-          <CheckCircle2 className="w-4 h-4 text-blue-600" />
-          <span className="text-sm font-medium text-blue-800">{achievements}</span>
-        </div>
-      </div>
-    )}
+    <h3 className="text-xl leading-7 font-bold text-white mb-3">
+      {title}
+    </h3>
+    <p className="leading-[26px] text-slate-300 m-0">
+      {description}
+    </p>
   </motion.div>
 );
 
-const TechEvolution = () => {
-  const evolution = [
-    { name: "Rule-Based Systems", era: "1999-2015", description: "Built eBay's foundational rule engines" },
-    { name: "Machine Learning", era: "2015-2021", description: "Deployed ML models at scale for OfferUp" },
-    { name: "AI & Deep Learning", era: "2021-2023", description: "Led AI-powered risk intelligence at Signifyd" },
-    { name: "Agentic AI", era: "2023-Present", description: "Designing LLM-driven autonomous risk systems" }
+
+
+const ProfessionalJourneySection = () => {
+  const journeyItems = [
+    {
+      icon: <JourneyIcon1 className="w-6 h-6" />,
+      company: 'AI Fraud Intelligence Consultant',
+      role: 'Fravity (Agentic AI Copilot)',
+      description: 'Advising an early-stage startup building a human-in-the-loop fraud platform that combines autonomous agent intelligence with expert decision-making. Shaping their approach to identity verification, bot detection, and adaptive risk scoring using agentic AI frameworks.',
+      isCurrent: true
+    },
+    {
+      icon: <JourneyIcon2 className="w-6 h-6" />,
+      company: 'Signifyd',
+      role: 'Senior Director Risk Intelligence',
+      description: 'Led transformation to AI-powered risk intelligence organization, implementing automated anomaly detection, KPI frameworks, and AI powered analysis for analyst enablement.'
+    },
+    {
+      icon: <JourneyIcon3 className="w-6 h-6" />,
+      company: 'OfferUp',
+      role: 'Head of Trust and Safety',
+      description: 'Built a comprehensive trust and safety program from zero, implementing real-time fraud detection, behavioral risk models, and ML-powered enforcement systems. Scaled team from 1 to 50+ people while establishing clear OKRs, operational frameworks, and identity verification protocols that protected millions of marketplace transactions.'
+    },
+    {
+      icon: <JourneyIcon2 className="w-6 h-6" />,
+      company: 'eBay',
+      role: 'Senior Manager Trust Science',
+      description: 'Built foundational fraud detection infrastructure processing millions of transactions daily, establishing the scalable architecture that evolved into modern AI-powered risk systems. Pioneered early machine learning applications for payment fraud, account takeover prevention, and seller risk assessment.'
+    },
+    {
+      icon: <JourneyIcon3 className="w-6 h-6" />,
+      company: 'Early Career Foundation',
+      role: 'Various eBay Risk Roles',
+      description: 'Developed core competencies in risk modeling, fraud pattern recognition, and identity verification systems. Built early detection systems and behavioral analytics models, laying the groundwork for future expertise in AI-driven trust and safety solutions.'
+    }
   ];
 
   return (
-    <div className="bg-gray-900 rounded-2xl p-8">
-      <h3 className="text-2xl font-bold text-white mb-8 text-center">Technology Evolution & Expertise</h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {evolution.map((tech, index) => (
+    <div className="relative">
+      {/* Timeline Line */}
+      <div className="absolute left-6 top-6 bottom-6 w-0.5 bg-gradient-to-b from-indigo-500 via-indigo-400 to-slate-600"></div>
+
+      <div className="space-y-8">
+        {journeyItems.map((item, index) => (
           <motion.div
             key={index}
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ delay: index * 0.1 }}
-            className="text-center"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
+            className="relative"
           >
-            <div className="bg-blue-600 rounded-lg p-4 mb-4">
-              <div className="text-white font-bold text-lg">{tech.name}</div>
-              <div className="text-blue-200 text-sm">{tech.era}</div>
+            <div className={`flex items-start bg-slate-800/70 backdrop-blur-sm rounded-xl p-6 shadow-2xl border transition-all duration-300 hover:bg-slate-800/90 hover:scale-[1.02] ${item.isCurrent ? 'border-indigo-500/50 shadow-indigo-500/20' : 'border-slate-600/70'
+              }`}>
+              {/* Icon with connecting line */}
+              <div className={`relative flex-shrink-0 w-12 h-12 bg-indigo-600 rounded-full flex items-center justify-center text-white z-10 ${item.isCurrent ? 'ring-4 ring-indigo-500/30 bg-indigo-500' : ''
+                }`}>
+                {item.icon}
+              </div>
+
+              {/* Content */}
+              <div className="ml-6 flex-1 min-w-0">
+                <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
+                  <h3 className="text-xl font-bold text-white">
+                    {item.company}
+                  </h3>
+                  <span className="text-sm text-slate-400 whitespace-nowrap font-medium">
+                    {item.period}
+                  </span>
+                </div>
+
+                <div className="mb-3 flex items-center gap-3 flex-wrap">
+                  <span className="font-semibold text-slate-200 text-base">
+                    {item.role}
+                  </span>
+                  {item.isCurrent && (
+                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-indigo-500/50 text-indigo-200 border border-indigo-400/30 animate-pulse">
+                      Current Role
+                    </span>
+                  )}
+                </div>
+
+                <p className="text-slate-300 leading-relaxed">
+                  {item.description}
+                </p>
+              </div>
             </div>
-            <div className="text-gray-300 text-sm">{tech.description}</div>
           </motion.div>
         ))}
       </div>
@@ -90,215 +146,202 @@ const TechEvolution = () => {
   );
 };
 
-const CareerHighlights = () => {
-  const highlights = [
-    {
-      company: "eBay",
-      role: "Sr Manager, Risk Management",
-      period: "1999-2015",
-      achievement: "Pioneered scalable trust enforcement systems",
-      detail: "Built platform supporting 1B+ automated decisions weekly",
-      icon: Globe,
-      color: "from-blue-500 to-blue-600"
-    },
-    {
-      company: "OfferUp", 
-      role: "Head of Trust and Safety",
-      period: "2015-2021",
-      achievement: "Built end-to-end T&S program from ground up",
-      detail: "Achieved 95% reduction in abusive user interactions",
-      icon: Shield,
-      color: "from-green-500 to-green-600"
-    },
-    {
-      company: "Signifyd",
-      role: "Senior Director Risk Intelligence", 
-      period: "2021-2025",
-      achievement: "Led AI-powered risk intelligence organization",
-      detail: "60% faster fraud response across 10,000+ merchants",
-      icon: Brain,
-      color: "from-purple-500 to-purple-600"
-    },
-    {
-      company: "Current",
-      role: "Independent Consultant",
-      period: "2025-Present", 
-      achievement: "Advising on agentic AI risk systems",
-      detail: "Designing LLM-driven fraud intelligence platforms",
-      icon: Zap,
-      color: "from-orange-500 to-orange-600"
-    }
-  ];
-
-  return (
-    <div className="space-y-6">
-      {highlights.map((highlight, index) => {
-        const Icon = highlight.icon;
-        return (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ delay: index * 0.1 }}
-            className="bg-white rounded-xl p-6 shadow-lg border hover:shadow-xl transition-all duration-300"
-          >
-            <div className="flex items-start space-x-4">
-              <div className={`w-12 h-12 bg-gradient-to-br ${highlight.color} rounded-lg flex items-center justify-center flex-shrink-0`}>
-                <Icon className="w-6 h-6 text-white" />
-              </div>
-              <div className="flex-1">
-                <div className="flex items-center justify-between mb-2">
-                  <h4 className="font-bold text-lg text-gray-900">{highlight.company}</h4>
-                  <span className="text-sm text-gray-500">{highlight.period}</span>
-                </div>
-                <div className="text-blue-600 font-medium mb-2">{highlight.role}</div>
-                <div className="text-gray-900 font-medium mb-1">{highlight.achievement}</div>
-                <div className="text-gray-600 text-sm">{highlight.detail}</div>
-              </div>
-            </div>
-          </motion.div>
-        );
-      })}
-    </div>
-  );
-};
-
 const ExpertiseSection = () => {
-  const expertiseAreas = [
+  const driveAreas = [
     {
       icon: Shield,
-      title: "Trust & Safety Leadership",
-      description: "End-to-end program design and execution, from startup to enterprise scale with proven methodologies.",
-      experience: "Head of T&S at OfferUp, Sr Manager at eBay",
-      achievements: "Built programs protecting millions of users"
+      title: "Proven Results",
+      description: "Track record of building systems that scale to billions of decisions and achieve measurable impact on platform safety."
     },
     {
-      icon: Brain,
-      title: "AI & Machine Learning",
-      description: "Early adopter of ML in risk detection, evolving from rule-based to agentic AI systems over 15+ years.",
-      experience: "ML deployment since 2015, LLM integration since 2023",
-      achievements: "Implemented AI reducing fraud response by 60%"
-    },
-    {
-      icon: BarChart3,
-      title: "Risk Strategy & Operations",
-      description: "Strategic risk management across fintech, marketplaces, and payments with data-driven approaches.",
-      experience: "Risk Intelligence leadership at Signifyd",
-      achievements: "Supported 10,000+ merchants with real-time detection"
-    },
-    {
-      icon: Settings,
-      title: "Platform Architecture",
-      description: "Designing and scaling enforcement systems, rule engines, and detection platforms for high-volume environments.",
-      experience: "Co-developed eBay's rules platform v1-v3",
-      achievements: "Managed 30,000+ annual rule updates"
+      icon: Flower,
+      title: "Innovation Leader",
+      description: "Early adopter of AI/ML in risk detection, staying ahead of emerging threats with cutting-edge technology."
     },
     {
       icon: Users,
-      title: "Team Building & Leadership",
-      description: "Scaling cross-functional teams from individual contributor to 50+ person organizations.",
-      experience: "Built teams at OfferUp from 1 to 50+ people",
-      achievements: "Led global teams of 20+ analysts and engineers"
+      title: "Team Builder",
+      description: "Experience scaling teams from individual contributor to 50+ person organizations with clear operational frameworks."
     },
     {
-      icon: Target,
-      title: "Executive Communication",
-      description: "C-level advisory, board presentations, and stakeholder alignment on risk strategy and business impact.",
-      experience: "C-level Risk Operating Group participation",
-      achievements: "Delivered KPI-driven insights to protect margins"
+      icon: Globe,
+      title: "Enterprise Scale",
+      description: "Built and operated trust systems for global platforms serving millions of users across diverse markets."
     }
   ];
 
+  const stats = [
+    { value: "1999", label: "Started at eBay" },
+    { value: "25+", label: "Years Experience" },
+    { value: "4", label: "Major Platforms" },
+    { value: "1B+", label: "Decisions Built" }
+  ];
+
   return (
-    <section id="expertise" className="py-20 bg-gray-50">
+    <section id="expertise" className="py-20 bg-gradient-to-br from-slate-900 to-slate-800">
       <Container>
-        {/* Header */}
-        <div className="text-center mb-16">
+        {/* About Section */}
+        <div className="mb-20 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-100 to-purple-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium mb-6">
-              <Award className="w-4 h-4" />
-              <span>25+ Years of Expertise</span>
+            <div className="mb-6 inline-flex items-center bg-indigo-700/50 text-sm leading-5 font-medium text-indigo-300 rounded-full py-2 px-4">
+              <Heart className="w-4 h-4" />
+              <span className="ml-2">About TrustML Studio</span>
             </div>
-            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
-              Deep Expertise in 
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600"> AI Fraud Risk</span>
+            <h2 className="text-5xl font-bold leading-[48px] text-white m-0 mb-6">
+              25+ Years Building
+              <span className="bg-gradient-to-r from-indigo-600 to-blue-500 bg-clip-text text-transparent ml-2">
+                Trusted Systems
+              </span>
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              25+ years of hands-on experience building trust and safety systems at scale, 
-              from eBay's foundational platforms to cutting-edge agentic AI frameworks.
+            <p className="max-w-[768px] text-xl leading-7 text-slate-300 mx-auto my-0">
+              TrustML Studio is an AI fraud risk consulting firm led by Michael
+              Pezely, a senior Trust & Safety and Risk Strategy Leader with 25+
+              years architecting global fraud prevention, policy enforcement,
+              and platform integrity programs at companies like eBay, OfferUp,
+              and Signifyd.
             </p>
           </motion.div>
         </div>
 
-        {/* Career Highlights */}
+        {/* What Drives My Work Section */}
         <div className="mb-20">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            className="text-center mb-12"
-          >
-            <h3 className="text-3xl font-bold text-gray-900 mb-4">Career Highlights</h3>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Progressive leadership roles at industry-leading companies, each building on the last 
-              to create comprehensive expertise in trust, safety, and risk intelligence.
+          <div className="mb-12 text-center">
+            <h3 className="text-4xl leading-9 font-bold text-white mb-4">
+              What Drives My Work
+            </h3>
+            <p className="max-w-[672px] text-slate-300 mx-auto my-0">
+              The principles and experiences that guide my approach to building
+              trust and safety systems.
             </p>
-          </motion.div>
-          <CareerHighlights />
-        </div>
-
-        {/* Expertise Areas */}
-        <div className="mb-20">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            className="text-center mb-12"
-          >
-            <h3 className="text-3xl font-bold text-gray-900 mb-4">Core Expertise Areas</h3>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Comprehensive skill set spanning technical implementation, strategic leadership, 
-              and operational excellence in trust and safety.
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-            {expertiseAreas.map((area, index) => (
-              <ExpertiseCard key={index} {...area} />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {driveAreas.map((area, index) => (
+              <DriveCard key={index} {...area} />
             ))}
           </div>
         </div>
 
-        {/* Technology Evolution */}
-        <div className="mb-16">
-          <TechEvolution />
+
+
+        {/* Professional Journey Section */}
+        <div className="mb-20">
+          <div className="mb-12 text-center">
+            <h3 className="text-4xl leading-9 font-bold text-white mb-4">
+              AI-Powered Fraud & Risk Intelligence Journey
+            </h3>
+            <p className="max-w-[672px] text-slate-300 mx-auto my-0">
+              A comprehensive evolution from foundational risk systems to cutting-edge agentic AI fraud prevention. Transforming financial security through intelligent automation, predictive modeling, and autonomous threat detection across enterprise-scale platforms.
+            </p>
+          </div>
+          <ProfessionalJourneySection />
         </div>
 
-        {/* CTA */}
+        {/* Our Approach Section */}
+        <div className="mb-20 grid grid-cols-1 md:grid-cols-2 gap-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            className="bg-slate-800/70 border border-slate-700/70 rounded-2xl p-8 shadow-2xl backdrop-blur-sm"
+          >
+            <div className="mb-6 flex h-12 w-12 items-center justify-center bg-indigo-600 rounded-lg">
+              <Briefcase className="h-6 w-6 text-white" />
+            </div>
+            <h3 className="text-2xl leading-8 font-bold text-white mb-4">
+              My Approach
+            </h3>
+            <p className="leading-[26px] text-slate-300 mb-4">
+              Effective trust and safety is
+              built on three pillars: deep technical expertise, strategic
+              business alignment, and human-centered design. My approach
+              combines cutting-edge AI with practical operational frameworks.
+            </p>
+            <p className="leading-[26px] text-slate-300 m-0">
+              Whether building from scratch or optimizing existing systems, I
+              focus on scalable solutions that grow with your business while
+              maintaining the human oversight necessary for complex trust
+              decisions.
+            </p>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="bg-slate-800/70 border border-slate-700/70 rounded-2xl p-8 shadow-2xl backdrop-blur-sm"
+          >
+            <div className="mb-6 flex h-12 w-12 items-center justify-center bg-indigo-600 rounded-lg">
+              <Target className="h-6 w-6 text-white" />
+            </div>
+            <h3 className="text-2xl leading-8 font-bold text-white mb-4">
+              Current Focus
+            </h3>
+            <p className="leading-[26px] text-slate-300 mb-4">
+              TrustML studio is particularly excited about agentic AI systems
+              that empower analysts and operators with autonomous agents for
+              risk detection and policy enforcement. These systems represent the
+              next evolution in trust and safety technology.
+            </p>
+            <p className="leading-[26px] text-slate-300 m-0">
+              Our recent work includes designing AI-native fraud intelligence
+              platforms and developing Model Context Protocols that enable
+              non-technical users to leverage powerful AI capabilities.
+            </p>
+          </motion.div>
+        </div>
+
+        {/* Stats Section */}
+        <div className="mb-20 grid grid-cols-2 md:grid-cols-4 gap-8">
+          {stats.map((stat, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+              className="text-center bg-slate-800/70 border border-slate-700/70 rounded-xl p-6 shadow-2xl backdrop-blur-sm"
+            >
+              <div className="mb-2 text-4xl leading-[48px] font-bold text-white">
+                {stat.value}
+              </div>
+              <div className="text-slate-300">{stat.label}</div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* CTA Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl p-12 text-center"
+          className="bg-gradient-to-r from-indigo-600 to-blue-500 text-center text-white rounded-2xl p-12 shadow-lg shadow-indigo-500/30"
         >
-          <div className="max-w-3xl mx-auto">
-            <h3 className="text-3xl font-bold text-gray-900 mb-4">
-              Ready to Leverage This Expertise?
-            </h3>
-            <p className="text-gray-600 mb-8">
-              Whether you need strategic guidance, hands-on implementation, or fractional leadership, 
-              my experience can help accelerate your trust and safety initiatives.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="group">
-                Schedule Consultation
-                <ArrowRight className="w-5 h-5 ml-2" />
-              </Button>
-              <Button variant="outline" size="lg">
-                View Detailed Resume
-              </Button>
-            </div>
+          <h3 className="text-3xl leading-9 font-bold mb-4">
+            Let's Work Together
+          </h3>
+          <p className="max-w-[672px] text-white mx-auto mb-8 my-0">
+            Ready to discuss how my 25+ years of experience can
+            help accelerate your trust and safety initiatives? I love to hear
+            about your challenges and explore how we can work together.
+          </p>
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <Button
+              size="lg"
+              className="bg-slate-900 shadow-lg shadow-indigo-500/30 hover:bg-slate-800"
+              onClick={() => window.SchedulingService?.openScheduling('general')}
+            >
+              Schedule Consultation
+            </Button>
+            <Button
+              variant="outline"
+              size="lg"
+              {...ResourceService.getDownloadLinkProps('michael-pezely-resume', {
+                trackingSource: 'expertise-cta'
+              })}
+            >
+              Download Resume
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
           </div>
         </motion.div>
       </Container>

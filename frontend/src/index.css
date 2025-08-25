@@ -20,6 +20,43 @@ code {
 
 @layer base {
   :root {
+        /* Dark theme as default - matching new design */
+        --background: 222 84% 5%;  /* slate-900 */
+        --foreground: 0 0% 100%;   /* white */
+        --card: 215 28% 17%;       /* slate-800 with opacity */
+        --card-foreground: 0 0% 100%;
+        --popover: 222 84% 5%;
+        --popover-foreground: 0 0% 100%;
+        --primary: 238 75% 65%;    /* indigo-500 */
+        --primary-foreground: 0 0% 100%;
+        --secondary: 215 25% 27%;  /* slate-700 */
+        --secondary-foreground: 210 40% 98%;
+        --muted: 215 28% 17%;      /* slate-800 */
+        --muted-foreground: 215 20% 65%;  /* slate-400 */
+        --accent: 238 75% 65%;     /* indigo-500 */
+        --accent-foreground: 0 0% 100%;
+        --destructive: 0 84% 60%;
+        --destructive-foreground: 0 0% 98%;
+        --border: 215 28% 17%;     /* slate-800 */
+        --input: 215 28% 17%;      /* slate-800 */
+        --ring: 238 75% 65%;       /* indigo-500 */
+        --chart-1: 238 75% 65%;    /* indigo */
+        --chart-2: 188 100% 67%;   /* cyan */
+        --chart-3: 217 91% 60%;    /* blue */
+        --chart-4: 271 81% 56%;    /* purple */
+        --chart-5: 142 71% 45%;    /* green */
+        --radius: 0.75rem;
+        
+        /* Dark theme specific variables */
+        --gradient-from: 222 84% 5%;    /* slate-900 */
+        --gradient-to: 215 25% 27%;     /* slate-800 */
+        --card-background: 215 28% 17%; /* slate-800/70 */
+        --glass-background: rgba(30, 41, 59, 0.7); /* slate-800/70 */
+        --glass-border: rgba(71, 85, 105, 0.7);    /* slate-600/70 */
+    }
+  
+  /* Light theme fallback (keeping original for compatibility) */
+  .light {
         --background: 0 0% 100%;
         --foreground: 0 0% 3.9%;
         --card: 0 0% 100%;
@@ -44,33 +81,6 @@ code {
         --chart-3: 197 37% 24%;
         --chart-4: 43 74% 66%;
         --chart-5: 27 87% 67%;
-        --radius: 0.5rem;
-    }
-  .dark {
-        --background: 0 0% 3.9%;
-        --foreground: 0 0% 98%;
-        --card: 0 0% 3.9%;
-        --card-foreground: 0 0% 98%;
-        --popover: 0 0% 3.9%;
-        --popover-foreground: 0 0% 98%;
-        --primary: 0 0% 98%;
-        --primary-foreground: 0 0% 9%;
-        --secondary: 0 0% 14.9%;
-        --secondary-foreground: 0 0% 98%;
-        --muted: 0 0% 14.9%;
-        --muted-foreground: 0 0% 63.9%;
-        --accent: 0 0% 14.9%;
-        --accent-foreground: 0 0% 98%;
-        --destructive: 0 62.8% 30.6%;
-        --destructive-foreground: 0 0% 98%;
-        --border: 0 0% 14.9%;
-        --input: 0 0% 14.9%;
-        --ring: 0 0% 83.1%;
-        --chart-1: 220 70% 50%;
-        --chart-2: 160 60% 45%;
-        --chart-3: 30 80% 55%;
-        --chart-4: 280 65% 60%;
-        --chart-5: 340 75% 55%;
     }
 }
 
@@ -81,6 +91,113 @@ code {
     @apply border-border;
     }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-gradient-to-br from-slate-900 to-slate-800 text-white;
     }
+}
+
+@layer components {
+  /* Gradient text utilities */
+  .gradient-text-primary {
+    @apply bg-gradient-to-r from-cyan-400 to-indigo-500 bg-clip-text text-transparent;
+  }
+  
+  .gradient-text-secondary {
+    @apply bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent;
+  }
+  
+  /* Glassmorphism utilities */
+  .glass-card {
+    @apply bg-slate-800/70 backdrop-blur-sm border border-slate-700/70 rounded-2xl shadow-2xl transition-all duration-300;
+  }
+  
+  .glass-button {
+    @apply bg-indigo-900/30 hover:bg-indigo-900/50 border border-indigo-700/50 backdrop-blur-sm transition-all duration-200;
+  }
+  
+  /* Button variants with enhanced transitions */
+  .btn-primary {
+    @apply bg-gradient-to-r from-indigo-600 to-blue-500 hover:from-indigo-500 hover:to-blue-400 text-white shadow-lg shadow-indigo-500/30 transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0;
+  }
+  
+  .btn-secondary {
+    @apply bg-indigo-900/30 hover:bg-indigo-900/50 border border-indigo-700/50 text-indigo-300 backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5;
+  }
+  
+  .btn-outline {
+    @apply border-2 border-indigo-600 text-indigo-400 hover:text-white hover:bg-indigo-600 transition-all duration-200 hover:-translate-y-0.5;
+  }
+  
+  /* Section backgrounds */
+  .section-dark {
+    @apply bg-slate-900;
+  }
+  
+  .section-darker {
+    @apply bg-slate-800;
+  }
+  
+  /* Card variants with colored gradients and transitions */
+  .card-indigo {
+    @apply bg-gradient-to-br from-indigo-900/50 to-indigo-800/50 border border-indigo-700/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-indigo-500/20;
+  }
+  
+  .card-cyan {
+    @apply bg-gradient-to-br from-cyan-900/50 to-cyan-800/50 border border-cyan-700/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-cyan-500/20;
+  }
+  
+  .card-blue {
+    @apply bg-gradient-to-br from-blue-900/50 to-blue-800/50 border border-blue-700/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-500/20;
+  }
+  
+  .card-purple {
+    @apply bg-gradient-to-br from-purple-900/50 to-purple-800/50 border border-purple-700/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-purple-500/20;
+  }
+  
+  /* Header utilities with smooth transitions */
+  .header-transparent {
+    @apply bg-transparent backdrop-blur-0 transition-all duration-300;
+  }
+  
+  .header-scrolled {
+    @apply bg-slate-900/95 backdrop-blur-lg border-b border-slate-700/50 transition-all duration-300;
+  }
+  
+  /* Text contrast utilities with transitions */
+  .text-primary {
+    @apply text-white transition-colors duration-200;
+  }
+  
+  .text-secondary {
+    @apply text-slate-300 transition-colors duration-200;
+  }
+  
+  .text-muted {
+    @apply text-slate-400 transition-colors duration-200;
+  }
+  
+  .text-accent {
+    @apply text-indigo-300 transition-colors duration-200;
+  }
+  
+  .text-accent-cyan {
+    @apply text-cyan-400 transition-colors duration-200;
+  }
+  
+  /* Interactive elements with smooth transitions */
+  .interactive {
+    @apply transition-all duration-200 hover:scale-105 active:scale-95;
+  }
+  
+  .link-hover {
+    @apply transition-colors duration-200 hover:text-cyan-400;
+  }
+  
+  /* Loading states */
+  .loading-pulse {
+    @apply animate-pulse bg-slate-700/50;
+  }
+  
+  .loading-spin {
+    @apply animate-spin;
+  }
 }

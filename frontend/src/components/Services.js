@@ -1,6 +1,9 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Shield, Brain, TrendingUp, Users, Zap, Lock, Eye, AlertTriangle, CheckCircle, ArrowRight, Settings, Target, BarChart3 } from "lucide-react";
+import { Brain, TrendingUp, Users, Eye, CheckCircle, ArrowRight, Settings, Target, BarChart3, ChevronDown } from "lucide-react";
+import ContactService from "../utils/contactService";
+import SchedulingService from "../utils/schedulingService";
+import ResourceService from "../utils/resourceService";
 
 const Container = ({ children, className = "" }) => (
   <div className={`max-w-7xl mx-auto px-6 ${className}`}>{children}</div>
@@ -9,18 +12,18 @@ const Container = ({ children, className = "" }) => (
 const Button = ({ children, variant = "primary", size = "md", className = "", ...props }) => {
   const baseClasses = "inline-flex items-center justify-center font-medium transition-all duration-200 rounded-lg";
   const variants = {
-    primary: "bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl",
-    secondary: "bg-white hover:bg-gray-50 text-gray-900 border border-gray-200 hover:border-gray-300",
-    outline: "border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white"
+    primary: "bg-gradient-to-r from-indigo-600 to-blue-500 hover:from-indigo-500 hover:to-blue-400 text-white shadow-lg shadow-indigo-500/30 hover:shadow-xl hover:shadow-indigo-500/40",
+    secondary: "bg-indigo-900/30 hover:bg-indigo-900/50 text-indigo-300 border border-indigo-700/50 backdrop-blur-sm",
+    outline: "border-2 border-indigo-600 text-indigo-400 hover:bg-indigo-600 hover:text-white"
   };
   const sizes = {
     sm: "px-4 py-2 text-sm",
     md: "px-6 py-3 text-base",
     lg: "px-8 py-4 text-lg"
   };
-  
+
   return (
-    <button 
+    <button
       className={`${baseClasses} ${variants[variant]} ${sizes[size]} ${className}`}
       {...props}
     >
@@ -29,46 +32,98 @@ const Button = ({ children, variant = "primary", size = "md", className = "", ..
   );
 };
 
-const ServiceCard = ({ icon: Icon, title, description, deliverables, duration, gradient, delay = 0 }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 30 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.6, delay }}
-    className="bg-white rounded-2xl shadow-lg border hover:shadow-xl transition-all duration-300 overflow-hidden group"
-  >
-    <div className={`h-2 ${gradient}`} />
-    <div className="p-8">
-      <div className="flex items-center space-x-4 mb-6">
-        <div className={`w-12 h-12 rounded-xl ${gradient} flex items-center justify-center`}>
-          <Icon className="w-6 h-6 text-white" />
+const ServiceCard = ({ icon: Icon, title, description, deliverables, duration, gradient, serviceId, delay = 0 }) => {
+  const [isExpanded, setIsExpanded] = React.useState(false);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, delay }}
+      className="bg-slate-800/70 backdrop-blur-sm rounded-2xl shadow-2xl border border-slate-700/70 hover:shadow-xl hover:shadow-indigo-500/20 transition-all duration-300 overflow-hidden"
+    >
+      <div className={`h-2 ${gradient}`} />
+
+      {/* Header - Always Visible */}
+      <div
+        className="p-6 cursor-pointer select-none"
+        onClick={() => setIsExpanded(!isExpanded)}
+      >
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-4">
+            <div className={`w-12 h-12 rounded-xl ${gradient} flex items-center justify-center`}>
+              <Icon className="w-6 h-6 text-white" />
+            </div>
+            <div>
+              <h3 className="text-xl font-bold text-white">{title}</h3>
+              <div className="text-sm text-slate-400">{duration}</div>
+            </div>
+          </div>
+          <motion.div
+            animate={{ rotate: isExpanded ? 180 : 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="flex-shrink-0"
+          >
+            <ChevronDown className="w-6 h-6 text-slate-400" />
+          </motion.div>
         </div>
-        <div>
-          <h3 className="text-xl font-bold text-gray-900">{title}</h3>
-          <div className="text-sm text-gray-500">{duration}</div>
+
+        <p className="text-slate-300 mt-4 leading-relaxed">{description}</p>
+      </div>
+
+      {/* Expandable Content */}
+      <motion.div
+        initial={false}
+        animate={{
+          height: isExpanded ? "auto" : 0,
+          opacity: isExpanded ? 1 : 0
+        }}
+        transition={{
+          height: { duration: 0.4, ease: "easeInOut" },
+          opacity: { duration: 0.3, delay: isExpanded ? 0.1 : 0 }
+        }}
+        className="overflow-hidden"
+      >
+        <div className="px-6 pb-6">
+          <div className="border-t border-slate-700/50 pt-6">
+            <div className="mb-6">
+              <h4 className="font-semibold text-white mb-3">Key Deliverables:</h4>
+              <ul className="space-y-2">
+                {deliverables.map((deliverable, index) => (
+                  <motion.li
+                    key={index}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: isExpanded ? 1 : 0, x: isExpanded ? 0 : -10 }}
+                    transition={{ delay: isExpanded ? index * 0.05 + 0.2 : 0, duration: 0.3 }}
+                    className="flex items-start space-x-3"
+                  >
+                    <CheckCircle className="w-4 h-4 text-cyan-400 flex-shrink-0 mt-0.5" />
+                    <span className="text-slate-300 text-sm">{deliverable}</span>
+                  </motion.li>
+                ))}
+              </ul>
+            </div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: isExpanded ? 1 : 0, y: isExpanded ? 0 : 10 }}
+              transition={{ delay: isExpanded ? 0.3 : 0, duration: 0.3 }}
+            >
+              <Button
+                variant="primary"
+                className="w-full"
+                onClick={() => ContactService.openServiceContact(serviceId)}
+              >
+                Discuss This Service
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
+            </motion.div>
+          </div>
         </div>
-      </div>
-      
-      <p className="text-gray-600 mb-6 leading-relaxed">{description}</p>
-      
-      <div className="mb-6">
-        <h4 className="font-semibold text-gray-900 mb-3">Key Deliverables:</h4>
-        <ul className="space-y-2">
-          {deliverables.map((deliverable, index) => (
-            <li key={index} className="flex items-start space-x-3">
-              <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-              <span className="text-gray-700 text-sm">{deliverable}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-      
-      <Button variant="outline" className="w-full group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600">
-        Discuss This Service
-        <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-      </Button>
-    </div>
-  </motion.div>
-);
+      </motion.div>
+    </motion.div>
+  );
+};
 
 const ConsultingApproach = () => {
   const steps = [
@@ -76,31 +131,31 @@ const ConsultingApproach = () => {
       title: "Discovery & Assessment",
       description: "Deep dive into your current risk posture, pain points, and business objectives",
       icon: Eye,
-      color: "from-blue-500 to-blue-600"
+      color: "from-indigo-500 to-indigo-600"
     },
     {
       title: "Strategic Planning",
       description: "Design tailored risk strategy and roadmap aligned with your goals",
       icon: Target,
-      color: "from-purple-500 to-purple-600"
+      color: "from-cyan-500 to-cyan-600"
     },
     {
       title: "Implementation Support",
       description: "Guide execution with hands-on support and expertise transfer",
       icon: Settings,
-      color: "from-green-500 to-green-600"
+      color: "from-blue-500 to-blue-600"
     },
     {
       title: "Optimization & Scale",
       description: "Continuous improvement and scaling based on results and feedback",
       icon: TrendingUp,
-      color: "from-orange-500 to-orange-600"
+      color: "from-purple-500 to-purple-600"
     }
   ];
 
   return (
-    <div className="bg-gray-50 rounded-2xl p-8">
-      <h3 className="text-2xl font-bold text-gray-900 mb-8 text-center">My Consulting Approach</h3>
+    <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 border border-slate-700/50">
+      <h3 className="text-2xl font-bold text-white mb-8 text-center">My Consulting Approach</h3>
       <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
         {steps.map((step, index) => {
           const Icon = step.icon;
@@ -115,8 +170,8 @@ const ConsultingApproach = () => {
               <div className={`w-16 h-16 mx-auto mb-4 bg-gradient-to-br ${step.color} rounded-full flex items-center justify-center`}>
                 <Icon className="w-8 h-8 text-white" />
               </div>
-              <h4 className="font-semibold text-gray-900 mb-2">{step.title}</h4>
-              <p className="text-gray-600 text-sm">{step.description}</p>
+              <h4 className="font-semibold text-white mb-2">{step.title}</h4>
+              <p className="text-slate-300 text-sm">{step.description}</p>
             </motion.div>
           );
         })}
@@ -130,20 +185,22 @@ const ServicesSection = () => {
     {
       icon: BarChart3,
       title: "Risk Strategy & Assessment",
+      serviceId: "risk-strategy",
       duration: "2-4 weeks",
       description: "Comprehensive evaluation of your current risk operations, identifying gaps and opportunities for improvement. Includes competitive analysis and industry benchmarking.",
       deliverables: [
         "Current state risk assessment report",
-        "Gap analysis with prioritized recommendations", 
+        "Gap analysis with prioritized recommendations",
         "Risk KPI framework and measurement strategy",
         "90-day tactical improvement plan",
         "Executive presentation with findings"
       ],
-      gradient: "bg-gradient-to-r from-blue-500 to-blue-600"
+      gradient: "bg-gradient-to-r from-indigo-500 to-indigo-600"
     },
     {
       icon: Target,
       title: "Trust & Safety Program Build",
+      serviceId: "program-build",
       duration: "8-12 weeks",
       description: "Design and implement end-to-end trust and safety programs from the ground up, including policy frameworks, operational processes, and technology stack.",
       deliverables: [
@@ -154,12 +211,13 @@ const ServicesSection = () => {
         "KPI dashboard and reporting framework",
         "Training materials and documentation"
       ],
-      gradient: "bg-gradient-to-r from-green-500 to-green-600"
+      gradient: "bg-gradient-to-r from-cyan-500 to-cyan-600"
     },
     {
       icon: Brain,
       title: "AI/ML Risk Intelligence",
-      duration: "6-10 weeks", 
+      serviceId: "ai-ml-intelligence",
+      duration: "6-10 weeks",
       description: "Modernize risk detection with AI and machine learning, from rule-based systems to advanced models and agentic frameworks for scalable fraud prevention.",
       deliverables: [
         "AI/ML strategy and implementation roadmap",
@@ -169,11 +227,12 @@ const ServicesSection = () => {
         "Performance monitoring and optimization plan",
         "Team upskilling and knowledge transfer"
       ],
-      gradient: "bg-gradient-to-r from-purple-500 to-purple-600"
+      gradient: "bg-gradient-to-r from-blue-500 to-blue-600"
     },
     {
       icon: Users,
       title: "Fractional Leadership",
+      serviceId: "fractional-leadership",
       duration: "3-12 months",
       description: "Serve as your interim or fractional Head of Trust & Safety, providing executive leadership while you build internal capabilities or navigate transitions.",
       deliverables: [
@@ -184,12 +243,12 @@ const ServicesSection = () => {
         "Budget management and resource planning",
         "Succession planning and knowledge transfer"
       ],
-      gradient: "bg-gradient-to-r from-orange-500 to-orange-600"
+      gradient: "bg-gradient-to-r from-purple-500 to-purple-600"
     }
   ];
 
   return (
-    <section id="services" className="py-20 bg-white">
+    <section id="services" className="py-20 bg-slate-800">
       <Container>
         {/* Header */}
         <div className="text-center mb-16">
@@ -198,12 +257,12 @@ const ServicesSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
+            <h2 className="text-4xl lg:text-5xl font-bold text-white mb-6">
               Consulting
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600"> Services</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400"> Services</span>
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Strategic consulting services designed to help companies build world-class trust and safety programs 
+            <p className="text-xl text-slate-300 max-w-3xl mx-auto">
+              Strategic consulting services designed to help companies build world-class trust and safety programs
               that scale from startup to enterprise, backed by 25+ years of hands-on experience.
             </p>
           </motion.div>
@@ -229,18 +288,29 @@ const ServicesSection = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          className="text-center bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-12 text-white"
+          className="text-center bg-gradient-to-r from-indigo-600 to-cyan-500 rounded-2xl p-12 text-white shadow-2xl shadow-indigo-500/20"
         >
           <h3 className="text-3xl font-bold mb-4">Ready to Transform Your Risk Strategy?</h3>
-          <p className="text-blue-100 mb-8 max-w-2xl mx-auto">
-            Let's discuss how TrustML.Studio's expertise can help you build a trust and safety program that protects your business 
+          <p className="text-indigo-100 mb-8 max-w-2xl mx-auto">
+            Let's discuss how TrustML.Studio's expertise can help you build a trust and safety program that protects your business
             and enables sustainable growth. Schedule a consultation to explore your needs.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button variant="secondary" size="lg">
+            <Button
+              variant="secondary"
+              size="lg"
+              onClick={() => SchedulingService.openScheduling('general')}
+            >
               Schedule Consultation
             </Button>
-            <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-blue-600">
+            <Button
+              variant="outline"
+              size="lg"
+              className="border-white text-white hover:bg-white hover:text-indigo-600"
+              {...ResourceService.getDownloadLinkProps('gameverse-case-study', {
+                trackingSource: 'services-cta'
+              })}
+            >
               Download Case Studies
             </Button>
           </div>
