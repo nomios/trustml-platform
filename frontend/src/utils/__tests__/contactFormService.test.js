@@ -82,11 +82,11 @@ describe('ContactFormService', () => {
       const result = await contactFormService.submitContactForm(validFormData);
 
       expect(fetch).toHaveBeenCalledWith(
-        'http://localhost:8000/api/contact',
+        'https://api.web3forms.com/submit',
         expect.objectContaining({
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(validFormData)
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: expect.any(String)
         })
       );
 

@@ -8,7 +8,8 @@ import errorHandlingService from './errorHandlingService.js';
 
 class ContactFormService {
   constructor() {
-    this.backendUrl = process.env.REACT_APP_BACKEND_URL || "";
+    this.web3formsUrl = 'https://api.web3forms.com/submit';
+    this.web3formsAccessKey = process.env.REACT_APP_WEB3FORMS_ACCESS_KEY || '64a4d871-b84c-4c19-ae0b-4592b5d683bb';
     this.maxRetries = 3;
     this.retryDelay = 1000;
   }
@@ -38,7 +39,7 @@ class ContactFormService {
         await analyticsService.trackFormSubmission('contact-form', formData, 'attempt');
       }
 
-      // Submit to backend
+      // Submit via Web3Forms
       const response = await this.submitToBackend(formData);
       
       if (!response.ok) {
@@ -80,21 +81,37 @@ class ContactFormService {
   }
 
   /**
-   * Submit form data to backend
+   * Submit form data to Web3Forms
    * @param {Object} formData - Form data
    * @returns {Promise<Response>} Fetch response
    */
   async submitToBackend(formData) {
-    if (!this.backendUrl) {
-      throw new Error('Backend URL not configured');
+    if (!this.web3formsAccessKey) {
+      throw new Error('Web3Forms access key not configured');
     }
 
-    const response = await fetch(`${this.backendUrl}/api/contact`, {
+    const payload = {
+      access_key: this.web3formsAccessKey,
+      first_name: formData.first_name,
+      last_name: formData.last_name,
+      email: formData.email,
+      company: formData.company,
+      role: formData.role,
+      interested_in: formData.interested_in,
+      service_type: formData.service_type,
+      urgency: formData.urgency,
+      message: formData.message,
+      name: `${formData.first_name || ''} ${formData.last_name || ''}`.trim(),
+      subject: `New Contact Request - ${formData.service_type || formData.interested_in || 'General'}`
+    };
+
+    const response = await fetch(this.web3formsUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Accept': 'application/json'
       },
-      body: JSON.stringify(formData)
+      body: JSON.stringify(payload)
     });
 
     return response;

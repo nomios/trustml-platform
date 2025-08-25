@@ -45,29 +45,9 @@ class StatusCheck(BaseModel):
 class StatusCheckCreate(BaseModel):
     client_name: str
 
-class ContactForm(BaseModel):
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    first_name: str
-    last_name: str
-    email: str
-    company: str
-    role: str = ""
-    interested_in: str
-    service_type: str = ""
-    urgency: str = "normal"
-    message: str
-    timestamp: datetime = Field(default_factory=datetime.utcnow)
-
-class ContactFormCreate(BaseModel):
-    first_name: str
-    last_name: str
-    email: str
-    company: str
-    role: str = ""
-    interested_in: str
-    service_type: str = ""
-    urgency: str = "normal"
-    message: str
+"""
+Removed legacy ContactForm models and endpoints; contact submissions are now handled via Web3Forms on the frontend.
+"""
 
 # Resource Management Models
 class Resource(BaseModel):
@@ -158,67 +138,7 @@ async def get_status_checks():
     status_checks = await db.status_checks.find().to_list(1000)
     return [StatusCheck(**status_check) for status_check in status_checks]
 
-@api_router.post("/contact", response_model=ContactForm)
-async def submit_contact_form(form_data: ContactFormCreate, request: Request):
-    try:
-        # Enhanced validation
-        if not form_data.first_name.strip() or not form_data.last_name.strip():
-            raise HTTPException(status_code=400, detail="First name and last name are required")
-        
-        if not form_data.email.strip() or "@" not in form_data.email:
-            raise HTTPException(status_code=400, detail="Valid email address is required")
-        
-        if not form_data.company.strip():
-            raise HTTPException(status_code=400, detail="Company name is required")
-        
-        if not form_data.message.strip() or len(form_data.message.strip()) < 10:
-            raise HTTPException(status_code=400, detail="Message must be at least 10 characters long")
-        
-        # Create contact form object
-        contact_dict = form_data.dict()
-        contact_obj = ContactForm(**contact_dict)
-        
-        # Store in database
-        result = await db.contact_forms.insert_one(contact_obj.dict())
-        
-        # Track form submission analytics
-        client_ip = request.client.host if request.client else None
-        user_agent = request.headers.get("user-agent")
-        
-        # Track as analytics event
-        analytics_event = AnalyticsEvent(
-            event_type="contact_form_submission",
-            element_id="contact-form",
-            ip_address=client_ip,
-            user_agent=user_agent,
-            metadata={
-                "interested_in": form_data.interested_in,
-                "service_type": form_data.service_type,
-                "urgency": form_data.urgency,
-                "has_company": bool(form_data.company.strip()),
-                "has_role": bool(form_data.role.strip()),
-                "message_length": len(form_data.message.strip())
-            }
-        )
-        await db.analytics_events.insert_one(analytics_event.dict())
-        
-        # TODO: Send email notification to admin
-        # TODO: Send confirmation email to user
-        
-        logger.info(f"Contact form submitted: {contact_obj.id} from {form_data.email}")
-        
-        return contact_obj
-        
-    except HTTPException:
-        raise
-    except Exception as e:
-        logger.error(f"Error submitting contact form: {str(e)}")
-        raise HTTPException(status_code=500, detail="Internal server error. Please try again later.")
-
-@api_router.get("/contact", response_model=List[ContactForm])
-async def get_contact_forms():
-    contact_forms = await db.contact_forms.find().to_list(1000)
-    return [ContactForm(**form) for form in contact_forms]
+# Legacy contact form endpoints removed. All contact submissions should be handled client-side.
 
 # Resource Management Endpoints
 @api_router.get("/resources", response_model=List[Resource])

@@ -1,6 +1,9 @@
 // Tests for SchedulingService
 
 import SchedulingService from '../schedulingService';
+import analyticsService from '../analyticsService';
+
+jest.mock('../analyticsService');
 
 // Mock fetch for testing
 global.fetch = jest.fn();
@@ -8,6 +11,7 @@ global.fetch = jest.fn();
 describe('SchedulingService', () => {
   beforeEach(() => {
     fetch.mockClear();
+    analyticsService.trackSchedulingInteraction.mockClear();
     delete window.location;
     window.location = { href: 'http://localhost:3000' };
   });
@@ -53,28 +57,17 @@ describe('SchedulingService', () => {
   });
 
   describe('trackSchedulingClick', () => {
-    test('sends tracking request to backend', async () => {
-      fetch.mockResolvedValueOnce({
-        ok: true,
-        json: async () => ({ status: 'tracked' })
-      });
+    test('tracks via analytics service, not backend', async () => {
+      analyticsService.trackSchedulingInteraction.mockResolvedValueOnce({ status: 'noop' });
 
-      await SchedulingService.trackSchedulingClick('risk-strategy', { test: 'data' });
+      await SchedulingService.trackSchedulingClick('risk-strategy', { source: 'test' });
 
-      expect(fetch).toHaveBeenCalledWith(
-        '/api/analytics/link-click',
-        expect.objectContaining({
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: expect.stringContaining('risk-strategy')
-        })
-      );
+      expect(analyticsService.trackSchedulingInteraction).toHaveBeenCalledWith('risk-strategy', 'click', 'test');
+      expect(fetch).not.toHaveBeenCalled();
     });
 
     test('handles tracking errors gracefully', async () => {
-      fetch.mockRejectedValueOnce(new Error('Network error'));
-      
-      // Should not throw
+      analyticsService.trackSchedulingInteraction.mockRejectedValueOnce(new Error('Network error'));
       await expect(SchedulingService.trackSchedulingClick('general')).resolves.toBeUndefined();
     });
   });

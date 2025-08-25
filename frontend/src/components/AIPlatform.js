@@ -294,7 +294,7 @@ const ExpertiseSection = () => {
               <Button 
                 size="lg" 
                 className="group"
-                onClick={() => window.SchedulingService?.openScheduling('ai-ml-intelligence')}
+                onClick={() => window.SchedulingService?.openScheduling('general')}
               >
                 Schedule Consultation
                 <ArrowRight className="w-5 h-5 ml-2" />

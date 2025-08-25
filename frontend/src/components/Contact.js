@@ -122,6 +122,9 @@ const ContactSection = ({ prefilledService = null, prefilledInquiry = null } = {
   const [submitError, setSubmitError] = useState('');
   const [openFAQ, setOpenFAQ] = useState(0);
 
+  // Web3Forms configuration (frontend-only submission)
+  const WEB3FORMS_ACCESS_KEY = process.env.REACT_APP_WEB3FORMS_ACCESS_KEY || '64a4d871-b84c-4c19-ae0b-4592b5d683bb';
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -136,38 +139,44 @@ const ContactSection = ({ prefilledService = null, prefilledInquiry = null } = {
     }
     
     try {
-      const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "";
-      const response = await fetch(`${BACKEND_URL}/api/contact`, {
+      // Submit via Web3Forms
+      const web3Payload = {
+        access_key: WEB3FORMS_ACCESS_KEY,
+        name: `${formData.firstName} ${formData.lastName}`.trim(),
+        email: formData.email,
+        subject: `New Contact Request - ${formData.serviceType || formData.interestedIn}`,
+        message: formData.message,
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+        company: formData.company,
+        role: formData.role,
+        interested_in: formData.interestedIn,
+        service_type: formData.serviceType,
+        urgency: formData.urgency
+      };
+
+      const web3Response = await fetch(`https://api.web3forms.com/submit`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Accept': 'application/json'
         },
-        body: JSON.stringify({
-          first_name: formData.firstName,
-          last_name: formData.lastName,
-          email: formData.email,
-          company: formData.company,
-          role: formData.role,
-          interested_in: formData.interestedIn,
-          service_type: formData.serviceType,
-          urgency: formData.urgency,
-          message: formData.message
-        })
+        body: JSON.stringify(web3Payload)
       });
 
-      if (response.ok) {
+      const web3Json = await web3Response.json().catch(() => ({}));
+
+      if (web3Response.status === 200) {
         setSubmitted(true);
         setSubmitError('');
-        
-        // Track successful form submission
+
         ContactService.trackContactInteraction('form_submission_success', {
           service_type: formData.serviceType,
           interested_in: formData.interestedIn,
           urgency: formData.urgency
         });
       } else {
-        const errorData = await response.json().catch(() => ({}));
-        setSubmitError(errorData.detail || 'Failed to submit form. Please try again.');
+        setSubmitError(web3Json.message || 'Failed to submit form. Please try again.');
       }
     } catch (error) {
       console.error('Error submitting form:', error);
@@ -213,7 +222,7 @@ const ContactSection = ({ prefilledService = null, prefilledInquiry = null } = {
       description: "Discuss interim or fractional Head of Trust & Safety roles to provide executive leadership during transitions.",
       action: "Discuss Leadership",
       gradient: "bg-gradient-to-br from-blue-500 to-blue-600",
-      onClick: () => SchedulingService.openScheduling('fractional-leadership')
+      onClick: () => SchedulingService.openScheduling('general')
     }
   ];
 

@@ -131,13 +131,13 @@ describe('Contact Flow Integration Tests', () => {
         });
       });
 
-      // Verify API call
+      // Verify API call to Web3Forms
       expect(fetch).toHaveBeenCalledWith(
-        'http://localhost:8000/api/contact',
+        'https://api.web3forms.com/submit',
         expect.objectContaining({
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: expect.stringContaining('john@example.com')
+          headers: expect.objectContaining({ 'Content-Type': 'application/json' }),
+          body: expect.any(String)
         })
       );
 

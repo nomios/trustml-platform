@@ -7,24 +7,14 @@ export const SchedulingService = {
   // Calendly configuration
   calendlyConfig: {
     baseUrl: 'https://calendly.com/michael-trustml',
-    defaultEvent: 'consultation',
-    
-    // Service-specific Calendly links
-    serviceEvents: {
-      'risk-strategy': 'risk-strategy-consultation',
-      'program-build': 'program-build-consultation', 
-      'ai-ml-intelligence': 'ai-ml-consultation',
-      'fractional-leadership': 'fractional-leadership-consultation',
-      'general': 'consultation'
-    }
+    defaultEvent: null
   },
 
   // Generate Calendly URL for specific service
   getCalendlyUrl: (serviceType = 'general', prefill = {}) => {
-    const { baseUrl, serviceEvents } = SchedulingService.calendlyConfig;
-    const eventType = serviceEvents[serviceType] || serviceEvents.general;
+    const { baseUrl } = SchedulingService.calendlyConfig;
     
-    let url = `${baseUrl}/${eventType}`;
+    let url = baseUrl;
     
     // Add prefill parameters if provided
     if (Object.keys(prefill).length > 0) {

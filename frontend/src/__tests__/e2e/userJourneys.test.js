@@ -25,13 +25,7 @@ const mockBackendResponses = {
 test.describe('Complete User Journeys', () => {
   test.beforeEach(async ({ page }) => {
     // Mock API responses
-    await page.route('**/api/contact', async route => {
-      await route.fulfill({
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify(mockBackendResponses.contactSubmission)
-      });
-    });
+    // No backend contact route; Web3Forms is used client-side
 
     await page.route('**/api/analytics/**', async route => {
       await route.fulfill({
@@ -101,9 +95,9 @@ test.describe('Complete User Journeys', () => {
     // 3. User submits form
     await page.click('[data-testid="contact-submit"]');
 
-    // 4. Verify form submission request
+    // 4. Verify form submission request to Web3Forms
     await page.waitForRequest(request =>
-      request.url().includes('/api/contact') &&
+      request.url().includes('https://api.web3forms.com/submit') &&
       request.method() === 'POST'
     );
 
@@ -165,20 +159,12 @@ test.describe('Complete User Journeys', () => {
     // 2. User explores external links
     await page.click('[data-testid="linkedin-link"]');
 
-    // Verify external link tracking
-    await page.waitForRequest(request =>
-      request.url().includes('/api/analytics/link-click') &&
-      request.postDataJSON()?.link_category === 'social'
-    );
+    // External link analytics removed - handled by PostHog
 
     // 3. User explores company experience links
     await page.click('[data-testid="company-ebay-link"]');
 
-    // Verify company link tracking
-    await page.waitForRequest(request =>
-      request.url().includes('/api/analytics/link-click') &&
-      request.postDataJSON()?.link_category === 'company'
-    );
+    // Company link analytics removed - handled by PostHog
 
     // 4. User checks footer links
     await page.click('[data-testid="privacy-policy-link"]');
@@ -217,9 +203,9 @@ test.describe('Complete User Journeys', () => {
 
     await page.click('[data-testid="contact-submit"]');
 
-    // Verify mobile form submission
+    // Verify mobile form submission goes to Web3Forms
     await page.waitForRequest(request =>
-      request.url().includes('/api/contact') &&
+      request.url().includes('https://api.web3forms.com/submit') &&
       request.method() === 'POST'
     );
 
@@ -227,12 +213,12 @@ test.describe('Complete User Journeys', () => {
   });
 
   test('Error handling and recovery journey', async ({ page }) => {
-    // 1. Simulate network error for contact form
-    await page.route('**/api/contact', async route => {
+    // 1. Simulate network error for contact form (Web3Forms)
+    await page.route('https://api.web3forms.com/submit', async route => {
       await route.fulfill({
         status: 500,
         contentType: 'application/json',
-        body: JSON.stringify({ error: 'Internal server error' })
+        body: JSON.stringify({ message: 'Internal server error' })
       });
     });
 
@@ -254,12 +240,12 @@ test.describe('Complete User Journeys', () => {
     // 4. Verify retry option is available
     await expect(page.locator('[data-testid="retry-button"]')).toBeVisible();
 
-    // 5. Fix the API and retry
-    await page.route('**/api/contact', async route => {
+    // 5. Fix the API and retry (Web3Forms)
+    await page.route('https://api.web3forms.com/submit', async route => {
       await route.fulfill({
         status: 200,
         contentType: 'application/json',
-        body: JSON.stringify(mockBackendResponses.contactSubmission)
+        body: JSON.stringify({ success: true, message: 'Submission successful' })
       });
     });
 

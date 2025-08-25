@@ -93,43 +93,7 @@ class TrustMLAPITester:
             print(f"Retrieved {len(response)} status checks")
         return success
 
-    def test_contact_form_submission(self):
-        """Test contact form submission"""
-        test_data = {
-            "first_name": "John",
-            "last_name": "Doe",
-            "email": f"test_{datetime.now().strftime('%H%M%S')}@example.com",
-            "company": "Test Company",
-            "role": "Developer",
-            "interested_in": "Fraud Detection",
-            "message": "This is a test message for the contact form."
-        }
-        
-        success, response = self.run_test(
-            "Submit Contact Form",
-            "POST",
-            "api/contact",
-            200,
-            data=test_data
-        )
-        
-        if success and 'id' in response:
-            print(f"Created contact form with ID: {response['id']}")
-            return response['id']
-        return None
-
-    def test_get_contact_forms(self):
-        """Test getting all contact forms"""
-        success, response = self.run_test(
-            "Get Contact Forms",
-            "GET",
-            "api/contact",
-            200
-        )
-        
-        if success:
-            print(f"Retrieved {len(response)} contact forms")
-        return success
+    # Contact form endpoints removed; frontend uses Web3Forms now.
 
 def main():
     print("🚀 Starting TrustML API Testing...")
@@ -148,9 +112,7 @@ def main():
     status_id = tester.test_create_status_check()
     tester.test_get_status_checks()
     
-    # Test contact form endpoints
-    contact_id = tester.test_contact_form_submission()
-    tester.test_get_contact_forms()
+    # Contact endpoints removed from backend; skipped here.
 
     # Print final results
     print("\n" + "=" * 50)

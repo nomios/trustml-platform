@@ -18,105 +18,9 @@ from server import app
 
 client = TestClient(app)
 
-class TestContactEndpoints:
-    """Test contact form endpoints"""
-    
-    def test_submit_contact_form_success(self):
-        """Test successful contact form submission"""
-        form_data = {
-            "first_name": "John",
-            "last_name": "Doe",
-            "email": "john@example.com",
-            "company": "Test Corp",
-            "interested_in": "Risk Strategy",
-            "service_type": "risk-strategy",
-            "message": "I am interested in your services."
-        }
-        
-        with patch('server.db') as mock_db:
-            mock_db.contact_forms.insert_one = AsyncMock(return_value=MagicMock(inserted_id="123"))
-            mock_db.analytics_events.insert_one = AsyncMock()
-            
-            response = client.post("/api/contact", json=form_data)
-            
-            assert response.status_code == 200
-            data = response.json()
-            assert data["first_name"] == "John"
-            assert data["email"] == "john@example.com"
-            assert "id" in data
-            assert "timestamp" in data
-
-    def test_submit_contact_form_validation_errors(self):
-        """Test contact form validation errors"""
-        # Missing required fields
-        form_data = {
-            "first_name": "",
-            "email": "invalid-email",
-            "company": "",
-            "message": "Short"
-        }
-        
-        response = client.post("/api/contact", json=form_data)
-        
-        assert response.status_code == 400
-        assert "First name and last name are required" in response.json()["detail"]
-
-    def test_submit_contact_form_invalid_email(self):
-        """Test contact form with invalid email"""
-        form_data = {
-            "first_name": "John",
-            "last_name": "Doe",
-            "email": "invalid-email",
-            "company": "Test Corp",
-            "interested_in": "Risk Strategy",
-            "message": "Valid message with enough characters"
-        }
-        
-        response = client.post("/api/contact", json=form_data)
-        
-        assert response.status_code == 400
-        assert "Valid email address is required" in response.json()["detail"]
-
-    def test_submit_contact_form_short_message(self):
-        """Test contact form with message too short"""
-        form_data = {
-            "first_name": "John",
-            "last_name": "Doe",
-            "email": "john@example.com",
-            "company": "Test Corp",
-            "interested_in": "Risk Strategy",
-            "message": "Short"
-        }
-        
-        response = client.post("/api/contact", json=form_data)
-        
-        assert response.status_code == 400
-        assert "Message must be at least 10 characters long" in response.json()["detail"]
-
-    def test_get_contact_forms(self):
-        """Test retrieving contact forms"""
-        mock_forms = [
-            {
-                "id": "1",
-                "first_name": "John",
-                "last_name": "Doe",
-                "email": "john@example.com",
-                "company": "Test Corp",
-                "interested_in": "Risk Strategy",
-                "message": "Test message",
-                "timestamp": datetime.utcnow()
-            }
-        ]
-        
-        with patch('server.db') as mock_db:
-            mock_db.contact_forms.find.return_value.to_list = AsyncMock(return_value=mock_forms)
-            
-            response = client.get("/api/contact")
-            
-            assert response.status_code == 200
-            data = response.json()
-            assert len(data) == 1
-            assert data[0]["first_name"] == "John"
+"""
+Contact form endpoint tests removed. Contact submissions are now handled client-side via Web3Forms.
+"""
 
 
 class TestResourceEndpoints:
@@ -507,108 +411,12 @@ class TestStatusEndpoints:
 
 class TestErrorHandling:
     """Test API error handling"""
-    
-    def test_database_error_handling(self):
-        """Test handling database errors"""
-        form_data = {
-            "first_name": "John",
-            "last_name": "Doe",
-            "email": "john@example.com",
-            "company": "Test Corp",
-            "interested_in": "Risk Strategy",
-            "message": "Test message with enough characters"
-        }
-        
-        with patch('server.db') as mock_db:
-            mock_db.contact_forms.insert_one = AsyncMock(side_effect=Exception("Database error"))
-            
-            response = client.post("/api/contact", json=form_data)
-            
-            assert response.status_code == 500
-            assert "Internal server error" in response.json()["detail"]
-
-    def test_invalid_json_handling(self):
-        """Test handling invalid JSON in requests"""
-        response = client.post(
-            "/api/contact",
-            data="invalid json",
-            headers={"Content-Type": "application/json"}
-        )
-        
-        assert response.status_code == 422  # Unprocessable Entity
-
-    def test_missing_required_fields(self):
-        """Test handling missing required fields"""
-        incomplete_data = {
-            "first_name": "John"
-            # Missing other required fields
-        }
-        
-        response = client.post("/api/contact", json=incomplete_data)
-        
-        assert response.status_code == 422  # Validation error
+    pass
 
 
 class TestRequestValidation:
     """Test request validation and sanitization"""
-    
-    def test_email_validation(self):
-        """Test email format validation"""
-        invalid_emails = [
-            "invalid-email",
-            "@example.com",
-            "test@",
-            "test..test@example.com",
-            ""
-        ]
-        
-        for email in invalid_emails:
-            form_data = {
-                "first_name": "John",
-                "last_name": "Doe",
-                "email": email,
-                "company": "Test Corp",
-                "interested_in": "Risk Strategy",
-                "message": "Test message with enough characters"
-            }
-            
-            response = client.post("/api/contact", json=form_data)
-            assert response.status_code == 400
-
-    def test_input_sanitization(self):
-        """Test input sanitization"""
-        form_data = {
-            "first_name": "  John  ",  # Extra whitespace
-            "last_name": "Doe",
-            "email": "john@example.com",
-            "company": "Test Corp",
-            "interested_in": "Risk Strategy",
-            "message": "Test message with enough characters"
-        }
-        
-        with patch('server.db') as mock_db:
-            mock_db.contact_forms.insert_one = AsyncMock()
-            mock_db.analytics_events.insert_one = AsyncMock()
-            
-            response = client.post("/api/contact", json=form_data)
-            
-            assert response.status_code == 200
-            # The API should handle whitespace appropriately
-
-    def test_message_length_validation(self):
-        """Test message length validation"""
-        short_message_data = {
-            "first_name": "John",
-            "last_name": "Doe",
-            "email": "john@example.com",
-            "company": "Test Corp",
-            "interested_in": "Risk Strategy",
-            "message": "Short"  # Too short
-        }
-        
-        response = client.post("/api/contact", json=short_message_data)
-        assert response.status_code == 400
-        assert "Message must be at least 10 characters long" in response.json()["detail"]
+    pass
 
 
 if __name__ == "__main__":
