@@ -1,0 +1,3 @@
+Test file to verify Git and Netlify deployment pipeline
+Created: 2024
+This file can be deleted after confirming the deployment works.
