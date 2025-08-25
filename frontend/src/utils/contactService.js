@@ -68,27 +68,10 @@ export const ContactService = {
   },
 
   // Track contact form interactions
+  // Note: Analytics now handled by PostHog integrated in index.html
   trackContactInteraction: async (eventType, metadata = {}) => {
-    try {
-      const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "";
-      await fetch(`${BACKEND_URL}/api/analytics/track`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          event_type: eventType,
-          element_id: 'contact-form',
-          metadata: {
-            ...metadata,
-            timestamp: new Date().toISOString(),
-            page_url: window.location.href
-          }
-        })
-      });
-    } catch (error) {
-      console.error('Error tracking contact interaction:', error);
-    }
+    // No-op: PostHog automatically tracks interactions
+    return Promise.resolve();
   },
 
   // Validate form data

@@ -79,11 +79,7 @@ test.describe('Complete User Journeys', () => {
 
     await scheduleButton.click();
 
-    // 5. Verify analytics tracking
-    await page.waitForRequest(request =>
-      request.url().includes('/api/analytics/track') &&
-      request.postDataJSON()?.event_type === 'scheduling_interaction'
-    );
+    // 5. Analytics tracking removed - now handled by PostHog
 
     // 6. Verify success state (Calendly would open in new tab)
     // In a real test, we might check for success messaging or state changes
@@ -111,11 +107,7 @@ test.describe('Complete User Journeys', () => {
       request.method() === 'POST'
     );
 
-    // 5. Verify analytics tracking
-    await page.waitForRequest(request =>
-      request.url().includes('/api/analytics/track') &&
-      request.postDataJSON()?.event_type === 'form_submission'
-    );
+    // 5. Analytics tracking removed - now handled by PostHog
 
     // 6. Verify success message appears
     await expect(page.locator('[data-testid="success-message"]')).toBeVisible();
@@ -149,11 +141,7 @@ test.describe('Complete User Journeys', () => {
     const downloadPromise = page.waitForEvent('download');
     await downloadButton.click();
 
-    // 6. Verify download tracking
-    await page.waitForRequest(request =>
-      request.url().includes('/api/analytics/track') &&
-      request.postDataJSON()?.event_type === 'resource_download'
-    );
+    // 6. Analytics tracking removed - now handled by PostHog
 
     // 7. Verify download initiated
     const download = await downloadPromise;
@@ -171,11 +159,7 @@ test.describe('Complete User Journeys', () => {
       await page.click(`nav a[href="#${item}"]`);
       await expect(page.locator(`#${item}`)).toBeVisible();
 
-      // Verify analytics tracking for navigation
-      await page.waitForRequest(request =>
-        request.url().includes('/api/analytics/track') &&
-        request.postDataJSON()?.event_type === 'navigation'
-      );
+      // Analytics tracking removed - now handled by PostHog
     }
 
     // 2. User explores external links
@@ -220,11 +204,7 @@ test.describe('Complete User Journeys', () => {
     // 3. User interacts with mobile-optimized contact methods
     await page.click('[data-testid="mobile-phone-link"]');
 
-    // Verify phone link tracking
-    await page.waitForRequest(request =>
-      request.url().includes('/api/analytics/track') &&
-      request.postDataJSON()?.event_type === 'contact_method_interaction'
-    );
+    // Analytics tracking removed - now handled by PostHog
 
     // 4. User fills out contact form on mobile
     await page.click('nav a[href="#contact"]');

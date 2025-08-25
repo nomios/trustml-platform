@@ -183,11 +183,6 @@ const HeroSection = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <div className="inline-flex items-center space-x-2 bg-indigo-900/30 text-indigo-300 px-4 py-2 rounded-full text-sm font-medium mb-6 border border-indigo-700/50 backdrop-blur-sm">
-                <Target className="w-4 h-4" />
-                <span>AI Fraud Risk Consulting | 25+ Years Experience</span>
-              </div>
-
               <h1 className="text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
                 Outpace Fraud with
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400"> Adaptive AI Defense and Risk Strategy</span>

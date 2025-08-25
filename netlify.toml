@@ -6,7 +6,7 @@
 [build.environment]
   NODE_VERSION = "20"
   CI = "false"
-  REACT_APP_BACKEND_URL = "https://api.trustml.studio"
+  REACT_APP_BACKEND_URL = ""  # Temporarily disabled until backend is deployed
 
 # Single Page App routing
 [[redirects]]
