@@ -15,20 +15,3 @@ COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /app/build /usr/share/nginx/html
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
-
-# Use the official MongoDB image as the base
-FROM mongo:latest
-
-# Set up environment variables for MongoDB (optional)
-# ENV MONGO_INITDB_ROOT_USERNAME=admin
-#ENV MONGO_INITDB_ROOT_PASSWORD=secret
-
-# Copy any custom initialization scripts (optional)
-# COPY ./init-scripts /docker-entrypoint-initdb.d/
-
-# Expose the default MongoDB port
-EXPOSE 27017
-
-
-
-
