@@ -291,8 +291,8 @@ class ErrorMonitor {
       // Track error counts
       this.incrementErrorCount(errorKey);
 
-      // Do not call backend analytics here; PostHog handles analytics and backend may be disabled
-      // analyticsService.trackError(error.type, error.message, error.context || 'unknown');
+      // Report to analytics
+      analyticsService.trackError(error.type, error.message, error.context || 'unknown');
 
       // Log to console in development
       if (process.env.NODE_ENV === 'development') {
@@ -367,11 +367,6 @@ class ErrorMonitor {
    */
   async flushErrors(immediate = false) {
     if (this.errorQueue.length === 0) return;
-    if (!this.backendUrl) {
-      // Backend disabled; clear queue silently
-      this.errorQueue = [];
-      return;
-    }
 
     const errorsToSend = [...this.errorQueue];
     this.errorQueue = [];

@@ -42,19 +42,38 @@ export const SchedulingService = {
       // Track scheduling button click
       SchedulingService.trackSchedulingClick(serviceType, trackingData);
       
-      // Open Calendly in new tab
+      // Try opening Calendly in a new tab
       const newWindow = window.open(calendlyUrl, '_blank', 'noopener,noreferrer');
-      
-      // Handle popup blocker
+
+      // If popup is blocked, gracefully fall back to same-tab navigation
       if (!newWindow) {
-        throw new Error('Popup blocked');
+        // Show a non-disruptive warning and open in current tab
+        try {
+          // Lazy import to avoid circular deps at module eval
+          const { default: errorHandlingService } = require('./errorHandlingService.js');
+          errorHandlingService.showUserFriendlyError(
+            'Popup blocked. Opening scheduling here instead.',
+            'warning',
+            true,
+            3000
+          );
+        } catch (_) {
+          // no-op if require is unavailable in bundler context
+        }
+        window.location.href = calendlyUrl;
       }
     } catch (error) {
-      // Handle scheduling errors with fallback options
-      errorHandlingService.handleApiError(error, 'scheduling', {
-        serviceType: serviceType,
-        retryCallback: () => SchedulingService.openScheduling(serviceType, prefill, trackingData)
-      });
+      // Handle unexpected scheduling errors with fallback options
+      try {
+        const { default: errorHandlingService } = require('./errorHandlingService.js');
+        errorHandlingService.handleApiError(error, 'scheduling', {
+          serviceType: serviceType,
+          retryCallback: () => SchedulingService.openScheduling(serviceType, prefill, trackingData)
+        });
+      } catch (_) {
+        // As a last resort, navigate directly
+        window.location.href = SchedulingService.getCalendlyUrl(serviceType, prefill);
+      }
     }
   },
 

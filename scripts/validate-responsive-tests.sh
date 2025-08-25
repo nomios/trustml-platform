@@ -132,17 +132,7 @@ fi
 # Check Docker configuration
 print_status "Checking Docker configuration..."
 
-if [ -f "docker/test.Dockerfile" ]; then
-    print_success "✓ Docker test configuration exists"
-else
-    print_warning "✗ Docker test configuration missing"
-fi
-
-if [ -f "docker-compose.test.yml" ]; then
-    print_success "✓ Docker Compose test configuration exists"
-else
-    print_warning "✗ Docker Compose test configuration missing"
-fi
+print_status "Docker-based test configuration not used in this project anymore (frontend-only)."
 
 # Check script files
 print_status "Checking test runner scripts..."
@@ -205,8 +195,8 @@ cat > test-results/validation-report.json << EOF
     },
     "configuration": {
       "responsiveConfig": $([ -f "frontend/responsive-test.config.js" ] && echo "true" || echo "false"),
-      "dockerConfig": $([ -f "docker/test.Dockerfile" ] && echo "true" || echo "false"),
-      "composeConfig": $([ -f "docker-compose.test.yml" ] && echo "true" || echo "false")
+      "dockerConfig": false,
+      "composeConfig": false
     },
     "documentation": {
       "present": $([ -f "docs/RESPONSIVE_DESIGN_TESTING.md" ] && echo "true" || echo "false"),

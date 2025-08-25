@@ -102,16 +102,6 @@ const Header = () => {
         </nav>
 
         <div className="hidden lg:flex items-center space-x-4">
-          <Button
-            variant="outline"
-            size="sm"
-            {...ExternalLinkService.getExternalLinkProps('/resources/mpezely_resume-.pdf', {
-              trackingId: 'header-resume-view',
-              category: 'resume'
-            })}
-          >
-            View Resume
-          </Button>
           <Button size="sm" onClick={() => window.SchedulingService?.openScheduling('general') || navigationService.scrollToSection('contact')}>Schedule Consultation</Button>
         </div>
 
@@ -146,17 +136,6 @@ const Header = () => {
               </button>
             ))}
             <div className="pt-4 space-y-2">
-              <Button
-                variant="outline"
-                size="sm"
-                className="w-full"
-                {...ExternalLinkService.getExternalLinkProps('/resources/mpezely_resume-.pdf', {
-                  trackingId: 'mobile-resume-view',
-                  category: 'resume'
-                })}
-              >
-                View Resume
-              </Button>
               <Button size="sm" className="w-full" onClick={() => window.SchedulingService?.openScheduling('general') || navigationService.scrollToSection('contact')}>Schedule Consultation</Button>
             </div>
           </Container>
