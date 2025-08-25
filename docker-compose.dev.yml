@@ -6,42 +6,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "3001:80"  # Changed to 3001 to avoid conflicts
-    depends_on:
-      - backend
+      - "3001:80"
     environment:
       - NODE_ENV=development
-      - REACT_APP_BACKEND_URL=http://localhost:5001  # Updated to match backend port
-    networks:
-      - app-network
-
-  backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    ports:
-      - "5001:5000"  # Changed to 5001 to avoid conflict with AirPlay
-    depends_on:
-      - mongodb
-    environment:
-      - MONGODB_URI=mongodb://mongodb:27017/trustml
-      - FLASK_ENV=development
-    networks:
-      - app-network
-
-  mongodb:
-    image: mongo:latest
-    container_name: mongodb-dev
-    ports:
-      - "27018:27017"  # Changed to 27018 to avoid conflict
-    volumes:
-      - mongodb-dev-data:/data/db
-    networks:
-      - app-network
-
-networks:
-  app-network:
-    driver: bridge
-
-volumes:
-  mongodb-dev-data:
+    restart: unless-stopped
