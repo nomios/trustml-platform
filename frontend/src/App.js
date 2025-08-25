@@ -105,7 +105,7 @@ const Header = () => {
           <Button
             variant="outline"
             size="sm"
-            {...ExternalLinkService.getExternalLinkProps('/resources/michael-pezely-resume.pdf', {
+            {...ExternalLinkService.getExternalLinkProps('/resources/mpezely_resume-.pdf', {
               trackingId: 'header-resume-view',
               category: 'resume'
             })}
@@ -150,7 +150,7 @@ const Header = () => {
                 variant="outline"
                 size="sm"
                 className="w-full"
-                {...ExternalLinkService.getExternalLinkProps('/resources/michael-pezely-resume.pdf', {
+                {...ExternalLinkService.getExternalLinkProps('/resources/mpezely_resume-.pdf', {
                   trackingId: 'mobile-resume-view',
                   category: 'resume'
                 })}
@@ -207,7 +207,7 @@ const HeroSection = () => {
                   variant="outline"
                   size="lg"
                   className="group"
-                  {...ExternalLinkService.getExternalLinkProps('/resources/michael-pezely-resume.pdf', {
+                  {...ExternalLinkService.getExternalLinkProps('/resources/mpezely_resume-.pdf', {
                     trackingId: 'hero-resume-download',
                     category: 'resume'
                   })}
