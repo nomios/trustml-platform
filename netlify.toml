@@ -6,7 +6,7 @@
 [build.environment]
   NODE_VERSION = "20"
   CI = "false"
-  REACT_APP_BACKEND_URL = ""  # Temporarily disabled until backend is deployed
+  # REACT_APP_WEB3FORMS_ACCESS_KEY can be set in Netlify UI or here if desired
 
 # Single Page App routing
 [[redirects]]
