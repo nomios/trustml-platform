@@ -1,7 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Heart, Briefcase, Target, Flower, TrendingUp, Shield, Globe, Users, Star, ArrowRight } from "lucide-react";
-import ResourceService from "../utils/resourceService";
+import { Heart, Briefcase, Target, Flower, TrendingUp, Shield, Globe, Users, Star } from "lucide-react";
 
 import { JourneyIcon1 } from "./icons/JourneyIcon1";
 import { JourneyIcon2 } from "./icons/JourneyIcon2";
@@ -332,16 +331,7 @@ const ExpertiseSection = () => {
             >
               Schedule Consultation
             </Button>
-            <Button
-              variant="outline"
-              size="lg"
-              {...ResourceService.getDownloadLinkProps('michael-pezely-resume', {
-                trackingSource: 'expertise-cta'
-              })}
-            >
-              Download Resume
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
+            
           </div>
         </motion.div>
       </Container>

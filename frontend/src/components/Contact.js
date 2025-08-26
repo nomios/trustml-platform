@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Mail, Phone, MapPin, Send, CheckCircle, Clock, Users, MessageSquare, Calendar, ArrowRight } from "lucide-react";
+import { Mail, MapPin, Send, CheckCircle, Clock, Users, MessageSquare, Calendar, ArrowRight } from "lucide-react";
 import ContactService from "../utils/contactService";
 import SchedulingService from "../utils/schedulingService";
 import ContactMethodService from "../utils/contactMethodService";
@@ -536,22 +536,7 @@ const ContactSection = ({ prefilledService = null, prefilledInquiry = null } = {
                   </div>
                 </div>
 
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-cyan-900/50 rounded-lg flex items-center justify-center border border-cyan-700/50">
-                    <Phone className="w-5 h-5 text-cyan-400" />
-                  </div>
-                  <div>
-                    <div className="font-medium text-white">Phone</div>
-                    <a 
-                      className="text-slate-300 hover:text-cyan-400 transition-colors cursor-pointer"
-                      {...ContactMethodService.getPhoneLinkProps(null, { 
-                        trackingId: 'contact-info-phone' 
-                      })}
-                    >
-                      {ContactMethodService.getContactInfo().phoneDisplay}
-                    </a>
-                  </div>
-                </div>
+
 
                 <div className="flex items-center space-x-3">
                   <div className="w-10 h-10 bg-blue-900/50 rounded-lg flex items-center justify-center border border-blue-700/50">

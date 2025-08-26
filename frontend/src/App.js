@@ -71,13 +71,13 @@ const Header = () => {
           className="flex items-center space-x-3 cursor-pointer"
           onClick={() => scrollToSection('hero')}
         >
-          <div className="w-12 h-12 bg-gradient-to-br from-indigo-600 to-cyan-500 rounded-lg flex items-center justify-center">
-            <Shield className="w-7 h-7 text-white" />
-          </div>
-          <div>
-            <div className="font-bold text-xl text-white">TrustML.Studio</div>
-            <div className="text-sm text-slate-300">AI Fraud Risk Consulting</div>
-          </div>
+          <img
+            src="/trustml.png"
+            alt="TrustML.Studio logo"
+            width="400"
+            height="100"
+            className="w-70 h-30 rounded-lg object-contain"
+          />
         </motion.div>
 
         <nav className="hidden lg:flex items-center space-x-8">
@@ -181,13 +181,10 @@ const HeroSection = () => {
                   variant="outline"
                   size="lg"
                   className="group"
-                  {...ExternalLinkService.getExternalLinkProps('/resources/mpezely_resume-.pdf', {
-                    trackingId: 'hero-resume-download',
-                    category: 'resume'
-                  })}
+                  onClick={() => navigationService.scrollToSection('resources')}
                 >
                   <Download className="w-5 h-5 mr-2" />
-                  Download Resume
+                  Download Resources
                 </Button>
               </div>
 

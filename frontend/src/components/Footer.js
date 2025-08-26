@@ -102,7 +102,14 @@ const Footer = () => {
               <FooterLink href="#expertise" section="expertise">Professional Experience</FooterLink>
               <FooterLink href="#case-studies" section="case-studies">Past Engagements</FooterLink>
               <FooterLink href="#resources" section="resources">Thought Leadership</FooterLink>
-              <FooterLink href="/resume">Resume/CV</FooterLink>
+              <a
+                href="/resources/mpezely_resume-.pdf"
+                className="text-slate-300 hover:text-cyan-400 transition-colors block py-1 cursor-pointer"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Resume/CV
+              </a>
               <FooterLink href="/speaking">Speaking Topics</FooterLink>
             </div>
           </FooterSection>
@@ -177,23 +184,6 @@ const Footer = () => {
                   })}
                 >
                   {ContactMethodService.getContactInfo().email}
-                </a>
-              </div>
-            </div>
-
-            <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-cyan-500 rounded-lg flex items-center justify-center">
-                <Phone className="w-4 h-4 text-white" />
-              </div>
-              <div>
-                <div className="text-sm font-medium text-white">Phone</div>
-                <a 
-                  className="text-sm text-slate-300 hover:text-cyan-400 transition-colors cursor-pointer"
-                  {...ContactMethodService.getPhoneLinkProps(null, { 
-                    trackingId: 'footer-phone' 
-                  })}
-                >
-                  {ContactMethodService.getContactInfo().phoneDisplay}
                 </a>
               </div>
             </div>

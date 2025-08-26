@@ -129,17 +129,7 @@ const AboutSection = () => {
             >
               Schedule Consultation
             </Button>
-            <Button
-              variant="outline"
-              size="lg"
-              className="border-white text-white hover:bg-white hover:text-slate-900"
-              {...ResourceService.getDownloadLinkProps('michael-pezely-resume', {
-                trackingSource: 'about-cta'
-              })}
-            >
-              Download Resume
-              <ArrowRight className="w-5 h-5 ml-2" />
-            </Button>
+            
           </div>
         </motion.div>
       </Container>
