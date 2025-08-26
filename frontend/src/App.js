@@ -74,7 +74,7 @@ const Header = () => {
           <img
             src="/trustml.png"
             alt="TrustML.Studio logo"
-            className="h-8 sm:h-10 md:h-12 lg:h-16 xl:h-28 2xl:h-32 w-auto object-contain"
+            className="h-10 sm:h-10 md:h-12 lg:h-12 xl:h-16 2xl:h-16 w-auto object-contain"
           />
         </motion.div>
 
@@ -167,7 +167,7 @@ const HeroSection = () => {
 
               <p className="text-xl text-slate-300 mb-8 leading-relaxed">
                 25+ years architecting fraud prevention and trust systems at eBay, OfferUp, and Signifyd.
-                We help companies build AI-powered risk programs that scale from startup to billions in decisions.
+                I help companies build AI-powered risk programs that scale from startup to billions in decisions.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 mb-8">
