@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Shield, ArrowLeft, Lock, Eye, Database, UserCheck } from "lucide-react";
+import { Shield, ArrowLeft, Lock, Eye, Database, UserCheck, Linkedin } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const Container = ({ children, className = "" }) => (
@@ -251,6 +251,10 @@ const PrivacyPolicy = () => {
               <div className="bg-slate-800/70 backdrop-blur-sm border border-slate-700/70 p-4 rounded-lg">
                 <p className="text-white"><strong>TrustML.Studio</strong></p>
                 <p className="text-slate-300">Email: <a href="mailto:michael@trustml.studio" className="text-indigo-400 hover:text-cyan-400 transition-colors">michael@trustml.studio</a></p>
+                <p className="text-slate-300 flex items-center">
+                  <Linkedin className="w-4 h-4 mr-2 text-indigo-400" />
+                  <a href="https://linkedin.com/in/mpezely" target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:text-cyan-400 transition-colors">linkedin.com/in/mpezely</a>
+                </p>
                 <p className="text-slate-300">Location: Seattle, WA</p>
               </div>
               
