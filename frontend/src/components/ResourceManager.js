@@ -53,7 +53,7 @@ const ResourceManager = () => {
     { filter_type: 'featured' }
   );
 
-  const categories = ['all', 'case-studies', 'whitepapers', 'guides', 'presentations'];
+  const categories = ['all', 'whitepapers', 'guides', 'presentations'];
 
   if (loading) {
     return (

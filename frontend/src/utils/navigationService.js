@@ -11,7 +11,6 @@ class NavigationService {
       'hero',
       'services', 
       'expertise',
-      'case-studies',
       'about',
       'resources',
       'contact'
