@@ -275,7 +275,7 @@ const ContactSection = ({ prefilledService = null, prefilledInquiry = null } = {
   }
 
   return (
-    <section id="contact" className="py-20 bg-slate-900">
+    <section id="contact" className="py-20 bg-slate-900 scroll-mt-16 md:scroll-mt-20 lg:scroll-mt-24 xl:scroll-mt-36 2xl:scroll-mt-40">
       <Container>
         {/* Header */}
         <div className="text-center mb-16">

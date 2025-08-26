@@ -32,7 +32,7 @@ const Button = ({ children, variant = "primary", size = "md", className = "", ..
 
 const AboutSection = () => {
   return (
-    <section id="about" className="py-20 bg-slate-800">
+    <section id="about" className="py-20 bg-slate-800 scroll-mt-16 md:scroll-mt-20 lg:scroll-mt-24 xl:scroll-mt-36 2xl:scroll-mt-40">
       <Container>
         {/* Header */}
         <div className="text-center mb-16">
@@ -104,7 +104,7 @@ const AboutSection = () => {
           >
             <h3 className="text-3xl font-bold text-white mb-6">My Philosophy</h3>
             <p className="text-xl text-slate-300 max-w-4xl mx-auto leading-relaxed">
-              "The best fraud and risk systems are invisible to good users and impenetrable to bad actors. They should feel like magic effortlessly protecting without getting in the way. This balance demands both technology and nuanced understanding of threat landscapes."
+              "The best fraud and risk systems are invisible to good users and impenetrable to bad actors. They should feel like magic by effortlessly protecting without getting in the way. This balance demands both technology and nuanced understanding of threat landscapes."
             </p>
             <div className="mt-8 text-indigo-300 font-medium">— Michael Pezely</div>
           </motion.div>

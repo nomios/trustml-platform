@@ -64,7 +64,7 @@ const Header = () => {
   return (
     <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-slate-900/95 backdrop-blur-lg shadow-lg' : 'bg-transparent'
       }`}>
-      <Container className="py-4 flex items-center justify-between">
+      <Container className="py-2 flex items-center justify-between">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -74,9 +74,7 @@ const Header = () => {
           <img
             src="/trustml.png"
             alt="TrustML.Studio logo"
-            width="400"
-            height="100"
-            className="w-70 h-30 rounded-lg object-contain"
+            className="h-8 sm:h-10 md:h-12 lg:h-16 xl:h-28 2xl:h-32 w-auto object-contain"
           />
         </motion.div>
 
@@ -148,7 +146,7 @@ const Header = () => {
 // Hero Section
 const HeroSection = () => {
   return (
-    <section id="hero" className="relative min-h-screen flex items-center overflow-hidden">
+    <section id="hero" className="relative min-h-screen flex items-center overflow-hidden pt-16 md:pt-20 lg:pt-24 xl:pt-36 2xl:pt-40 scroll-mt-16 md:scroll-mt-20 lg:scroll-mt-24 xl:scroll-mt-36 2xl:scroll-mt-40">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-slate-900 to-slate-800" />
       <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%23475569%22%20fill-opacity%3D%220.1%22%3E%3Ccircle%20cx%3D%227%22%20cy%3D%227%22%20r%3D%221%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-30" />

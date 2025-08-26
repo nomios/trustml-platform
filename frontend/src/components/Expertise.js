@@ -60,7 +60,7 @@ const ProfessionalJourneySection = () => {
       icon: <JourneyIcon1 className="w-6 h-6" />,
       company: 'AI Fraud Intelligence Consultant',
       role: 'Fravity (Agentic AI Copilot)',
-      description: 'Advising an early-stage startup building a human-in-the-loop fraud platform that combines autonomous agent intelligence with expert decision-making. Shaping their approach to identity verification, bot detection, and adaptive risk scoring using agentic AI frameworks.',
+      description: 'Advising an early-stage startup building human-in-the-loop fraud platform that combines autonomous agent intelligence with expert decision-making. Shaping their approach to identity verification, bot detection, and adaptive risk scoring using agentic AI frameworks.',
       isCurrent: true
     },
     {
@@ -177,7 +177,7 @@ const ExpertiseSection = () => {
   ];
 
   return (
-    <section id="expertise" className="py-20 bg-gradient-to-br from-slate-900 to-slate-800">
+    <section id="expertise" className="py-20 bg-gradient-to-br from-slate-900 to-slate-800 scroll-mt-16 md:scroll-mt-20 lg:scroll-mt-24 xl:scroll-mt-36 2xl:scroll-mt-40">
       <Container>
         {/* About Section */}
         <div className="mb-20 text-center">

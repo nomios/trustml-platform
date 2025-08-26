@@ -248,7 +248,7 @@ const ServicesSection = () => {
   ];
 
   return (
-    <section id="services" className="py-20 bg-slate-800">
+    <section id="services" className="py-20 bg-slate-800 scroll-mt-16 md:scroll-mt-20 lg:scroll-mt-24 xl:scroll-mt-36 2xl:scroll-mt-40">
       <Container>
         {/* Header */}
         <div className="text-center mb-16">

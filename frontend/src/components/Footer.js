@@ -69,7 +69,7 @@ const Footer = () => {
                 </div>
                 <div>
                   <div className="font-bold text-xl text-white">TrustML.Studio</div>
-                  <div className="text-xs text-slate-300">AI Fraud Risk Consulting</div>
+                  <div className="text-xs text-slate-300">AI Focused Risk Consulting</div>
                 </div>
               </div>
               <p className="text-slate-300 leading-relaxed mb-6">

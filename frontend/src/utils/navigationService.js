@@ -17,8 +17,19 @@ class NavigationService {
       'contact'
     ];
     
-    // Offset for fixed header
+    // Offset for fixed header (computed at runtime for responsiveness)
     this.headerOffset = 80;
+    this.updateHeaderOffset = this.updateHeaderOffset.bind(this);
+  }
+
+  /**
+   * Compute header height as offset to avoid content overlap
+   */
+  updateHeaderOffset() {
+    const header = document.querySelector('header');
+    if (header) {
+      this.headerOffset = Math.ceil(header.getBoundingClientRect().height);
+    }
   }
 
   /**
@@ -92,11 +103,16 @@ class NavigationService {
    * Initialize navigation on page load
    */
   initialize() {
+    // Compute header offset on load and resize for accurate scrolling
+    this.updateHeaderOffset();
+    window.addEventListener('resize', this.updateHeaderOffset);
+
     // Handle initial hash in URL
     if (window.location.hash) {
       const sectionId = window.location.hash.substring(1);
       // Delay to ensure page is fully loaded
       setTimeout(() => {
+        this.updateHeaderOffset();
         this.scrollToSection(sectionId);
       }, 100);
     }
@@ -105,6 +121,7 @@ class NavigationService {
     window.addEventListener('popstate', (event) => {
       if (window.location.hash) {
         const sectionId = window.location.hash.substring(1);
+        this.updateHeaderOffset();
         this.scrollToSection(sectionId);
       } else {
         this.scrollToTop();
