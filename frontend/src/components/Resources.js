@@ -112,6 +112,7 @@ const ResourceCard = ({
       <Button
         variant="outline"
         className="w-full group-hover:bg-indigo-600 group-hover:text-white group-hover:border-indigo-600"
+        data-testid={resourceId ? `download-${resourceId}` : undefined}
         {...(resourceId ? ResourceService.getDownloadLinkProps(resourceId, {
           trackingSource: 'resources-section'
         }) : {})}
@@ -184,6 +185,19 @@ const ResourcesSection = () => {
       rating: "5.0",
       icon: FileText,
       gradient: "bg-gradient-to-br from-indigo-500 to-indigo-600"
+    },
+    {
+      resourceId: "agentic-commerce-guide",
+      type: "White Paper",
+      title: "A Practical Guide to an Agentic Commerce Future",
+      description: "What is Agentic Commerce? The hype cycle makes it sound like the sky is falling. The truth? It’s not doom and gloom. It’s the same mission, new terrain. Learn what you need to know, and how to prioritize.",
+      author: "Michael Pezely",
+      readTime: "15 min read",
+      category: "Strategy",
+      downloadCount: "New Release",
+      rating: "5.0",
+      icon: FileText,
+      gradient: "bg-gradient-to-br from-cyan-500 to-blue-600"
     }
   ];
 
@@ -247,9 +261,9 @@ const ResourcesSection = () => {
 
 
 
-        {/* Featured Resource */}
-        <div className="flex justify-center mb-16">
-          <div className="max-w-lg w-full">
+        {/* Featured Resources */}
+        <div className="mb-16">
+          <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
             {resources.map((resource, index) => (
               <ResourceCard
                 key={index}
@@ -292,7 +306,7 @@ const ResourcesSection = () => {
           <h3 className="text-3xl font-bold mb-4">Stay Updated</h3>
           <p className="text-indigo-100 mb-8 max-w-2xl mx-auto">
             Get the latest insights, research findings, and product updates delivered to your inbox.
-            Join 10,000+ trust and safety professionals who trust our newsletter.
+            Join the manytrust and safety professionals who trust our newsletter.
           </p>
           <div className="max-w-md mx-auto">
             <div className="flex gap-4">

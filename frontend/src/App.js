@@ -167,7 +167,7 @@ const HeroSection = () => {
 
               <p className="text-xl text-slate-300 mb-8 leading-relaxed">
                 25+ years architecting fraud prevention and trust systems at eBay, OfferUp, and Signifyd.
-                I help companies build AI-powered risk programs that scale from startup to billions in decisions.
+                I help companies see through the noise and build AI-powered risk programs that will scale from startup to billions of decisions.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 mb-8">

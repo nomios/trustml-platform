@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Shield, Mail, Phone, MapPin, Twitter, Linkedin, Github, ArrowRight, Heart } from "lucide-react";
+import { Mail, MapPin, Linkedin, ArrowRight, Heart } from "lucide-react";
 import navigationService from "../utils/navigationService";
 import ExternalLinkService from "../utils/externalLinkService";
 import ContactMethodService from "../utils/contactMethodService";
@@ -64,9 +64,11 @@ const Footer = () => {
               className="mb-6"
             >
               <div className="flex items-center space-x-2 mb-4">
-                <div className="w-10 h-10 bg-gradient-to-br from-indigo-600 to-cyan-500 rounded-lg flex items-center justify-center">
-                  <Shield className="w-6 h-6 text-white" />
-                </div>
+                <img
+                  src="/trustml.png"
+                  alt="TrustML.Studio logo"
+                  className="h-8 sm:h-10 w-auto object-contain rounded-lg"
+                />
                 <div>
                   <div className="font-bold text-xl text-white">TrustML.Studio</div>
                   <div className="text-xs text-slate-300">AI Focused Risk Consulting</div>

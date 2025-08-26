@@ -19,6 +19,17 @@ class ResourceService {
       size: '512 KB',
       pages: 32,
       downloadCount: 0
+    },
+    'agentic-commerce-guide': {
+      id: 'agentic-commerce-guide',
+      title: 'A Practical Guide to an Agentic Commerce Future',
+      description: 'Cut through the hype and marketing cycle. Learn what you need to know, and how to prioritize.',
+      category: 'white-paper',
+      filename: 'Practical_guide_to_Agentic_Commerce.pdf',
+      path: '/resources/white-papers/Practical_guide_to_Agentic_Commerce.pdf',
+      size: 'Unknown',
+      pages: 0,
+      downloadCount: 0
     }
   };
 
