@@ -93,7 +93,6 @@ const Footer = () => {
               <FooterLink href="#services" section="services">AI/ML Risk Intelligence</FooterLink>
               <FooterLink href="#services" section="services">Fractional Leadership</FooterLink>
               <FooterLink href="#expertise" section="expertise">Expertise Areas</FooterLink>
-              <FooterLink href="#case-studies" section="case-studies">Case Studies</FooterLink>
             </div>
           </FooterSection>
 
@@ -102,7 +101,6 @@ const Footer = () => {
             <div className="space-y-2">
               <FooterLink href="#about" section="about">About Michael</FooterLink>
               <FooterLink href="#expertise" section="expertise">Professional Experience</FooterLink>
-              <FooterLink href="#case-studies" section="case-studies">Past Engagements</FooterLink>
               <FooterLink href="#resources" section="resources">Thought Leadership</FooterLink>
               <a
                 href="/resources/mpezely_resume-.pdf"
@@ -112,7 +110,6 @@ const Footer = () => {
               >
                 Resume/CV
               </a>
-              <FooterLink href="/speaking">Speaking Topics</FooterLink>
             </div>
           </FooterSection>
 
@@ -121,9 +118,6 @@ const Footer = () => {
             <div className="space-y-2">
               <FooterLink href="#" onClick={() => window.SchedulingService?.openScheduling('general')}>Schedule Consultation</FooterLink>
               <FooterLink href="#resources" section="resources">Downloads</FooterLink>
-              <FooterLink href="/blog">Blog Posts</FooterLink>
-              <FooterLink href="/presentations">Presentations</FooterLink>
-              <FooterLink href="/testimonials">Client Testimonials</FooterLink>
               <FooterLink 
                 href={ContactMethodService.createMailtoLink()}
                 external
