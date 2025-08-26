@@ -180,7 +180,6 @@ const TermsOfService = () => {
               <div className="bg-slate-800/70 backdrop-blur-sm border border-slate-700/70 p-4 rounded-lg">
                 <p className="text-white"><strong>TrustML.Studio</strong></p>
                 <p className="text-slate-300">Email: <a href="mailto:michael@trustml.studio" className="text-indigo-400 hover:text-cyan-400 transition-colors">michael@trustml.studio</a></p>
-                <p className="text-slate-300">Phone: <a href="tel:+15551234567" className="text-indigo-400 hover:text-cyan-400 transition-colors">+1 (555) 123-4567</a></p>
                 <p className="text-slate-300">Location: Seattle, WA</p>
               </div>
             </Section>
