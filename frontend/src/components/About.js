@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import {
   Heart as HeartIcon,
   Target as TargetIcon,
-  CheckCircle as CheckCircleIcon,
   ArrowRight as ArrowRightIcon,
   Calendar as CalendarIcon,
   Shield as ShieldIcon,
@@ -87,10 +86,11 @@ const AboutSection = () => {
                 <span className="ml-2 text-xs font-normal px-2 py-1 bg-indigo-900/50 text-indigo-300 rounded-full">Core Mission</span>
               </h3>
               <p className="leading-[26px] text-slate-300 mb-4">
-              Trust is the core of every digital interaction. My work centers on building systems, strategies, and teams that make it possible for real users to connect, transact, and grow in environments protected from fraud and abuse.              </p>
+                Trust is at the core of every digital interaction. My work centers on building systems, strategies, and teams that make it possible for real users to connect, transact, and grow in environments protected from fraud and abuse.
+              </p>
               <p className="leading-[26px] text-slate-300">
-              I focus on the critical intersection of identity, behavior, and platform integrity. By combining human insight with technical precision, I help organizations distinguish authentic users from bots, fraudsters, and other threats. The result is stronger protection for individuals and resilient digital ecosystems that can thrive in the face of evolving risks.              </p>
-              
+                I focus on the critical intersection of identity, behavior, and platform integrity. By combining human insight with technical precision, I help organizations distinguish authentic users from bots, fraudsters, and other threats. The result is stronger protection for individuals and resilient digital ecosystems that can thrive in the face of evolving risks.
+              </p>
             </motion.div>
 
             <motion.div
@@ -107,12 +107,10 @@ const AboutSection = () => {
                 <span className="ml-2 text-xs font-normal px-2 py-1 bg-cyan-900/50 text-cyan-300 rounded-full">Vision</span>
               </h3>
               <p className="leading-[26px] text-slate-300">
-              The future of trust and safety depends on intelligent systems that adapt and learn at scale. As threats evolve—from sophisticated bots to synthetic identities—defenses must be just as dynamic. Agentic AI is a breakthrough, extending human judgment to deliver real-time detection while preserving a frictionless experience for legitimate users.
-              </p>
+                The future of trust and safety depends on intelligent systems that adapt and learn at scale. As threats evolve, from sophisticated bots to synthetic identities, defenses must be just as dynamic. Agentic AI is a breakthrough that extends human judgment to deliver real-time detection while preserving a frictionless experience for legitimate users.              </p>
               <p className="leading-[26px] text-slate-300">
-              At TrustML Studio, I’m building the next generation of trust systems. By uniting behavioral analytics, identity intelligence, and adaptive risk scoring, we create environments where businesses can grow confidently, users feel safe, and fraud has nowhere to hide.
+                At TrustML Studio, I'm building the next generation of trust systems. By uniting behavioral analytics, identity intelligence, and adaptive risk scoring, we create environments where businesses can grow confidently, users feel safe, and fraud has nowhere to hide.
               </p>
-              
             </motion.div>
           </div>
         </div>
@@ -184,7 +182,7 @@ const AboutSection = () => {
           <div className="absolute -z-10 bottom-0 right-0 w-full h-full bg-[radial-gradient(circle_at_bottom_left,rgba(6,182,212,0.1),transparent_70%)]"></div>
           <h3 className="text-3xl md:text-4xl font-bold mb-4">Let's Work Together</h3>
           <p className="text-slate-300 mb-8 max-w-xl mx-auto">
-            Ready to discuss how TrustML studio can help accelerate your risk or trust initiatives? I'd love to hear about your challenges and explore how we can work together.
+            Ready to discuss how TrustML Studio can accelerate your risk or trust initiatives? I'd love to hear about your challenges and explore how we can work together.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button
