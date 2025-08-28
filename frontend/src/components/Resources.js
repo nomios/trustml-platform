@@ -306,21 +306,22 @@ const ResourcesSection = () => {
           <h3 className="text-3xl font-bold mb-4">Stay Updated</h3>
           <p className="text-indigo-100 mb-8 max-w-2xl mx-auto">
             Get the latest insights, research findings, and product updates delivered to your inbox.
-            Join the manytrust and safety professionals who trust our newsletter.
+            Join the many fraud and risk professionals who trust subscribe to my free Substack newsletter.
           </p>
-          <div className="max-w-md mx-auto">
-            <div className="flex gap-4">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1 px-4 py-3 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-300 bg-white/90 backdrop-blur-sm"
-              />
-              <Button variant="secondary">
-                Subscribe
-              </Button>
+          <div className="max-w-xl mx-auto space-y-4">
+            <div className="rounded-xl border border-white/40 bg-white overflow-hidden max-w-[480px] mx-auto">
+              <iframe
+                src="https://trustmlstudio.substack.com/embed"
+                width="100%"
+                height="150"
+                className="w-full"
+                frameBorder="0"
+                scrolling="no"
+                title="Substack Subscribe"
+              ></iframe>
             </div>
-            <p className="text-indigo-200 text-sm mt-3">
-              No spam, unsubscribe anytime. Read our privacy policy.
+
+            <p className="text-indigo-200 text-sm">
             </p>
           </div>
         </motion.div>

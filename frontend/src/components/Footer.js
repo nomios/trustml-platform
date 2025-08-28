@@ -147,15 +147,15 @@ const Footer = () => {
               </p>
             </div>
             <div className="flex gap-3">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1 px-4 py-3 bg-slate-800 border border-slate-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-white placeholder-slate-400"
-              />
-              <button className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-blue-500 hover:from-indigo-500 hover:to-blue-400 text-white rounded-lg font-medium transition-colors flex items-center shadow-lg shadow-indigo-500/30">
-                Subscribe
+              <a
+                href="https://trustmlstudio.substack.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-blue-500 hover:from-indigo-500 hover:to-blue-400 text-white rounded-lg font-medium transition-colors flex items-center shadow-lg shadow-indigo-500/30"
+              >
+                Subscribe on Substack
                 <ArrowRight className="w-4 h-4 ml-2" />
-              </button>
+              </a>
             </div>
           </div>
         </motion.div>
