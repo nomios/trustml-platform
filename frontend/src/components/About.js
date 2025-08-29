@@ -128,7 +128,10 @@ const AboutSection = () => {
             <div className="max-w-4xl mx-auto text-xl md:text-2xl leading-[1.6] text-slate-300 italic relative">
               <div className="absolute -left-8 -top-6 text-6xl text-indigo-400/20">"</div>
               <p>
-                The best fraud and risk systems are invisible to good users and impenetrable to bad actors. They should feel like magic by effortlessly protecting without getting in the way. This balance demands both technology and nuanced understanding of threat landscapes.
+              The best fraud and risk systems stay invisible to good users and impenetrable to bad actors. 
+              They should feel like magic, protecting without getting in the way. 
+              That balance requires more than strong technology. It also needs a 
+              nuanced understanding of the threat landscape.
               </p>
               <div className="absolute -right-8 -bottom-6 text-6xl text-indigo-400/20">"</div>
             </div>
